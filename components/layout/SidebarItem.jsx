@@ -31,17 +31,17 @@ export function NavItem({ items }) {
                                     href={item.url}
                                     className={`flex items-center justify-start w-full h-12 px-4 rounded-md transition-colors duration-200 ${
                                         isActive 
-                                            ? "bg-orange-100 text-orange-600" 
+                                            ? "bg-[#F3F4F5]" 
                                             : "hover:bg-gray-100 text-gray-700"
                                     }`}
                                 >
                                     <item.icon 
-                                        className={isActive ? "text-orange-600" : "text-gray-500"} 
+                                        className={isActive ? "text-primary" : "text-gray-500"} 
                                         size={20} 
                                     />
                                     {state === 'expanded' && (
                                         <span className={`ml-2 text-[14px] font-medium leading-normal tracking-[-0.28px] ${
-                                            isActive ? "text-orange-600" : "text-gray-700"
+                                            isActive ? "text-primary" : "text-textCustomDark"
                                         }`}>
                                             {item.name}
                                         </span>

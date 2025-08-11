@@ -1,12 +1,27 @@
 'use client'
-import PanelLayout from "@/components/layout/Layout";
-import { CONSTANTS } from "@/constants";
-import { useRouter } from "next/navigation";
+import { useEffect } from "react"
+import { usePathname, useRouter } from "next/navigation"
+import { getCookie } from "cookies-next" 
+
+import PanelLayout from "@/components/layout/Layout"
+import { CONSTANTS } from "@/constants"
+
 
 export default function Layout({ children }) {
-    const router = useRouter()
-    const token = localStorage.getItem(CONSTANTS.TOKEN_KEY)
-    if (!token) return router.push('/login')
+  const pathname = usePathname()
+  const router = useRouter()
+  const isDashboard = pathname?.startsWith('/dashboard')
 
-    return <PanelLayout> {children}</PanelLayout>
+  useEffect(() => {
+    const token = getCookie(CONSTANTS.TOKEN_KEY)
+    if (!token) {
+      router.push('/login')
+    }
+  }, [router])
+
+  return (
+    <PanelLayout scroll={isDashboard ? "page" : "container"}>
+      {children}
+    </PanelLayout>
+  )
 }

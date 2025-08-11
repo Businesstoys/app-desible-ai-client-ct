@@ -78,7 +78,6 @@ export function FileDataTable({ data = [], selectedRows, setSelectedRows, refetc
                     <TableHead>To Phone</TableHead>
                     <TableHead>Student Name</TableHead>
                     <TableHead>location</TableHead>
-                    {/* <TableHead>Gender</TableHead> */}
                     <TableHead></TableHead>
                     <TableHead></TableHead>
                 </TableRow>

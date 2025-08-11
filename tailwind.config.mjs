@@ -13,6 +13,7 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				textDark: 'hsl(var(--text-dark))',
 				textGray700: 'hsl(var(--text-gray-700))',
+				textCustomDark: 'hsl(var(--text-custom-dark))',
 				letterSpacing: {
 					tightCustom: 'var(--tracking-tight-custom)',
 				},
@@ -26,7 +27,8 @@ export default {
 				},
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					hover: 'hsl(197 100% 35%)'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',

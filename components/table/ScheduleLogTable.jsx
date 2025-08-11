@@ -52,7 +52,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ONGOING_CALL_STATUSES } from "@/constants";
 import { useDeleteCallMutation, useHandUpCallMutation } from "@/store";
 
-import { CallDetailsSheet } from "../CallDetailsSheet";
+import { CallDetailsSheet } from "../call-details-sheet";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 
 export function formatIndiaDateTime(isoString) {

@@ -43,8 +43,9 @@ body {
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
     --text-dark: 222.2 47.4% 11.2%;
-    --text-gray-700: 220 9% 46%
+    --text-gray-700: 220 9% 46%;
     --tracking-tight-custom: -0.6px;
+    --text-custom-dark: 213 12.7% 13.9%;
   }
 }
 

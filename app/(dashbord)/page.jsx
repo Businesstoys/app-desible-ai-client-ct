@@ -1,30 +1,21 @@
 // Home.tsx
 'use client';
-import { useState } from 'react';
-import { format } from 'date-fns';
-import { RefreshCcw, CalendarIcon, ChevronDown } from 'lucide-react';
-import { LogTable } from '@/components/table/LogTable';
-import { useCallListQuery, useCallDataExportMutation } from '@/store/api/callApi';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Calendar } from '@/components/ui/calendar';
-import {
-  Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger,
-} from '@/components/ui/dialog';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { useState } from 'react'
+import { format } from 'date-fns'
+import { RefreshCcw } from 'lucide-react'
+import { useCallListQuery, useCallDataExportMutation } from '@/store/api/callApi'
+
 import { useToast } from '@/hooks/use-toast';
+import ExportDialog from '@/components/ui/export-dialog'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { LogTable } from '@/components/table/LogTable'
+
 
 export default function Home() {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [dateRange, setDateRange] = useState({ from: null, to: null });
   const [sortBy, setSortBy] = useState('effectiveDate');
   const [sortOrder, setSortOrder] = useState('desc');
@@ -33,11 +24,6 @@ export default function Home() {
 
   const nin = 'pending,queued,deleted,schedule';
 
-  // Generate attempt options (1-15)
-  const attemptOptions = Array.from({ length: 15 }, (_, i) => ({
-    value: (i + 1).toString(),
-    label: `Attempt ${i + 1}`,
-  }));
 
   const queryParams = {
     search,
@@ -49,15 +35,17 @@ export default function Home() {
     ...(attempt && { attempt }),
   };
 
-  const { data = { data: [], meta: { total: 1 } }, isLoading, refetch } = useCallListQuery(queryParams);
-  const [exportData, { isLoading: isExporting }] = useCallDataExportMutation();
+  const {
+  data = { data: [], meta: { total: 1 } },
+  isLoading,
+  isFetching,
+  refetch,
+} = useCallListQuery(queryParams, { refetchOnMountOrArgChange: true });
+
+const loading = isLoading || isFetching;
+  const [exportData, { isLoading: isExporting }] = useCallDataExportMutation()
   const meta = data.meta;
   const totalPages = Math.ceil(meta.total / perPage);
-
-  const handleAttemptChange = (value) => {
-    setAttempt(value === 'all' ? '' : value);
-    setPage(1);
-  };
 
   const handleExport = async () => {
     if (!dateRange.from || !dateRange.to) {
@@ -85,7 +73,6 @@ export default function Home() {
       a.download = `call_logs_export_${format(dateRange.from, 'dd-MM-yy')}_to_${format(dateRange.to, 'dd-MM-yy')}.xlsx`;
       a.click();
       window.URL.revokeObjectURL(url);
-      setDialogOpen(false);
     } catch (err) {
       toast({
         title: 'Uh oh! Something went wrong.',
@@ -93,86 +80,42 @@ export default function Home() {
         status: 'error',
       });
     }
-  };
+  }
 
   return (
-    <div className="p-6 bg-muted min-h-screen space-y-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Input
-          placeholder="Search by name, phone or status..."
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setPage(1);
-          }}
-        />
+    <div className="p-6 min-h-screen space-y-4">
+      <div className='flex flex-row justify-between'>
+        <h3 className="text-[#1F2328] text-2xl font-bold leading-none tracking-[-0.03em]">Logs</h3>
+        <div className="flex flex-row gap-3">
+          <Input
+            className="h-9"
+            placeholder="Search by name, phone or status..."
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+          />
+          <ExportDialog
+            isExporting={isExporting}
+            onExport={(range) => {
+              setDateRange(range)
+              handleExport()
+            }}
+          />
 
-        <Select value={attempt || 'all'} onValueChange={handleAttemptChange}>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Filter by attempt" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Attempts</SelectItem>
-            {attemptOptions.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-orange-500 w-32 hover:bg-orange-600 text-white">Export Template</Button>
-          </DialogTrigger>
-
-          <DialogContent className="sm:max-w-xl">
-            <DialogHeader>
-              <DialogTitle>Select Date Range to Export</DialogTitle>
-              <DialogDescription>Choose a date range to export your call logs.</DialogDescription>
-            </DialogHeader>
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <CalendarIcon className="w-5 h-5 text-muted-foreground" />
-                <span className="text-sm">
-                  {dateRange?.from && dateRange?.to
-                    ? `${format(dateRange?.from, 'dd MMM yyyy')} - ${format(dateRange?.to, 'dd MMM yyyy')}`
-                    : 'Select a date range'}
-                </span>
-              </div>
-              <Calendar
-                mode="range"
-                selected={dateRange}
-                onSelect={setDateRange}
-                numberOfMonths={2}
-                initialFocus
-              />
-              <div className="flex gap-2">
-                <Button variant="outline" onClick={() => setDialogOpen(false)} className="w-full">
-                  Cancel
-                </Button>
-                <Button
-                  className="w-full"
-                  disabled={!dateRange?.from || !dateRange?.to || isExporting}
-                  onClick={handleExport}
-                >
-                  {isExporting ? 'Exporting...' : 'Apply & Download'}
-                </Button>
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
+          <div className="flex justify-end">
+            <Button variant="outline" size="sm" className="h-9" onClick={refetch}>
+              <RefreshCcw />
+            </Button>
+          </div>
+        </div>
       </div>
 
-      <div className="flex justify-end">
-        <Button variant="outline" size="sm" onClick={refetch}>
-          <RefreshCcw className="h-4 w-4 mr-1" /> Refresh Data
-        </Button>
-      </div>
 
       <LogTable
         data={data.data}
-        isLoading={isLoading}
+        isLoading={loading}
         page={page}
         perPage={perPage}
         setPage={setPage}

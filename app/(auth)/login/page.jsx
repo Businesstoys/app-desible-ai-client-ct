@@ -36,15 +36,18 @@ export default function Page() {
                 scopes: ["openid", "profile", "email"],
             });
 
-            const token = loginResponse.idToken;
-            debugger
+            const token = loginResponse?.idToken;
             const response = await login({ token }).unwrap()
             if (response?.status === 'success') {
-                setCookie(CONSTANTS.TOKEN_KEY, response?.data?.token)
-                showSuccessToast(_,'Loging Successfullly')
-                router.push("/dashboard")
+                const {token, cookieOptions} = response | {}
+                setCookie(CONSTANTS.TOKEN_KEY, token, cookieOptions)
+                showSuccessToast("Login Successful", {
+                    description: "Welcome back! You have successfully signed in."
+                });
+                router.replace('/')
             }
         } catch (error) {
+            debugger
             showErrorToast("Failed", {
                 description: error?.message,
             })

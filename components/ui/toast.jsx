@@ -4,7 +4,7 @@ import { toast, Toaster } from "sonner";
 
 // Toaster component setup
 export const ToastProvider = () => {
-  return <Toaster richColors position="bottom-right" />;
+  return <Toaster richColors position="top-center" />;
 };
 
 // Success toast
