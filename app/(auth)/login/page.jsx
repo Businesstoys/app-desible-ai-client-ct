@@ -42,7 +42,8 @@ export default function Page() {
                 const { token, cookieOptions, user } = response || {}
                 setCookie(CONSTANTS.TOKEN_KEY, token, {
                     expires: new Date(cookieOptions?.expires),
-                    path: cookieOptions?.path
+                    path: cookieOptions?.path,
+                    sameSite: 'lax'
                 })
                 dispatch(setUser(user))
                 showSuccessToast("Login Successful", {
