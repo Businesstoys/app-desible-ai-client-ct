@@ -13,7 +13,7 @@ const baseQuery = fetchBaseQuery({
     headers.set('Pragma', 'no-cache')
     headers.set('Expires', '0')
     headers.set('test', 'test')
-    const token = getCookie("DTTaXrOtJzsbqEoMKu") || localStorage.getItem('DTTaXrOtJzsbqEoMKu')
+    const token = getCookie(CONSTANTS.TOKEN_KEY)
 
     if (token) {
       headers.set('Authorization', token)
