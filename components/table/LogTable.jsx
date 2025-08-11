@@ -15,7 +15,7 @@ import {
   ArrowUpDown,
   ArrowDown,
   ArrowUp
-} from "lucide-react";
+} from "lucide-react"
 
 import {
   Table,
@@ -26,8 +26,8 @@ import {
   TableRow
 } from "@/components/ui/table"
 
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -90,7 +90,7 @@ const getStatusBadge = (call) => {
           Max Attempts ({callAttempt}/15)
         </Badge>
       </div>
-    );
+    )
   }
 
   const statusConfig = {
@@ -180,8 +180,8 @@ const SortableHeader = ({ field, label, sortBy, sortOrder, onSort, className = "
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
-  );
-};
+  )
+}
 
 
 export function LogTable({

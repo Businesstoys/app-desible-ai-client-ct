@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setCookie } from "cookies-next";
+import { deleteCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 
 import { msalInstance } from "@/lib/msalConfig";
@@ -12,22 +12,22 @@ import { CONSTANTS } from "@/constants";
 import { Separator } from "@/components/ui/separator";
 import MicrosoftButton from "@/components/ui/microsoft-button";
 import { showErrorToast, showSuccessToast } from "@/components/ui/toast";
-import { useLoginMutation } from "@/store";
+import { setUser, useLoginMutation } from "@/store";
 
 export default function Page() {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const dispatch = useDispatch()
-    
+
     const [login] = useLoginMutation()
 
 
     useEffect(() => {
         localStorage.removeItem("msal.interaction.status")
         msalInstance.initialize().then(console.log)
-        setCookie(CONSTANTS.TOKEN_KEY, "")
+        deleteCookie(CONSTANTS.TOKEN_KEY)
         dispatch(api.util.resetApiState())
-    }, []);
+    }, [])
 
     const handleMicrosoftLogin = async () => {
         setLoading(true)
@@ -39,11 +39,15 @@ export default function Page() {
             const token = loginResponse?.idToken;
             const response = await login({ token }).unwrap()
             if (response?.status === 'success') {
-                const {token, cookieOptions} = response | {}
-                setCookie(CONSTANTS.TOKEN_KEY, token, cookieOptions)
+                const { token, cookieOptions, user } = response || {}
+                setCookie(CONSTANTS.TOKEN_KEY, token, {
+                    expires: new Date(cookieOptions?.expires),
+                    path: cookieOptions?.path
+                })
+                dispatch(setUser(user))
                 showSuccessToast("Login Successful", {
                     description: "Welcome back! You have successfully signed in."
-                });
+                })
                 router.replace('/')
             }
         } catch (error) {
@@ -75,7 +79,7 @@ export default function Page() {
                 </div>
 
                 <Separator className="my-8 bg-[#E5E5E5]" />
-            
+
                 <MicrosoftButton onClick={handleMicrosoftLogin} loading={loading} />
             </div>
         </div>
