@@ -60,8 +60,8 @@ export function NavUser({ user }) {
 
               {state === 'expanded' && (
                 <div className="grid flex-1 gap-0.5 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">{user.name}</span>
-                  <span className="truncate text-xs text-gray-500">{user.email}</span>
+                  <span className="truncate font-semibold">{'Omkar R'}</span>
+                  <span className="truncate text-xs text-gray-500">{'omkar.r@vitrin9.com'}</span>
                 </div>
               )}
 
@@ -84,8 +84,8 @@ export function NavUser({ user }) {
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 gap-0.5 text-left leading-tight">
-                  <span className="font-semibold text-gray-900">{user.name}</span>
-                  <span className="text-sm text-gray-500">{user.email}</span>
+                  <span className="font-semibold text-gray-900">{'Omkar R'}</span>
+                  <span className="text-sm text-gray-500">{'omkar.r@vitrin9.com'}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
