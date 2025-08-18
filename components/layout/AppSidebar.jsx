@@ -22,7 +22,7 @@ const data = {
     avatar: "/avatars/shadcn.jpg",
   },
   projects: [
-    // { name: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+    { name: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
     { name: "Logs", url: "/", icon: LogsIcon },
     { name: "Queued Calls", url: "/queued-calls", icon: Clock },
     { name: "Schedule Calls", url: "/schedule-calls", icon: History },
