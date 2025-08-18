@@ -197,23 +197,6 @@ export default function DashboardPage() {
     };
 
     return (
-        <div className="bg-gray-50 min-h-screen">
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <img 
-          src="/image.png" 
-          alt="Full screen image"
-          className="h-auto object-contain"
-          style={{
-            minHeight: '100vh',
-            width: 'auto'
-          }}
-        />
-      </div>
-    </div>
-    )
-
-
-    return (
         <div className="p-6 bg-gray-50 min-h-screen">
             <div className="">
                 <div className="flex items-center justify-between mb-6">
