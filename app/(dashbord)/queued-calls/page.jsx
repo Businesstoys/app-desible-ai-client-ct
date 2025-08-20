@@ -159,7 +159,7 @@ export default function Page() {
                 <Button
                   variant={isQueueRunning ? "secondary" : "success"}
                   size="sm"
-                  className="flex items-center gap-1"
+                  className="flex items-center gap-1 bg-inherit rounded-md border w-max"
                   onClick={() =>
                     isQueueRunning
                       ? handleQueueStatusChange(stopQueue, "Queue stopped.")
@@ -183,6 +183,13 @@ export default function Page() {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
+          <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={() => refetch()}
+        >
+          <RefreshCcw size={10}/>
+        </Button>
         </div>
       </div>
 
@@ -210,24 +217,6 @@ export default function Page() {
 
       {/* Manually trigger refetch button */}
       <div className="mb-4 flex items-center gap-2">
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={() => refetch()}
-          className="text-blue-600 hover:text-blue-800 hover:bg-blue-50"
-        >
-          Refresh Data
-          <RefreshCcw size={10}/>
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => refetchQueueStatus()}
-          className="text-blue-600 hover:text-blue-800 hover:bg-blue-50"
-        >
-          Refresh Queue Status
-          <RefreshCcw size={10}/>
-        </Button>
         {isQueueStatusLoading && (
           <span className="ml-2 text-xs text-gray-400">Checking queue...</span>
         )}
@@ -235,14 +224,14 @@ export default function Page() {
 
       {/* Table */}
       <div className="bg-white rounded-md shadow-sm border border-gray-100 overflow-hidden">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto min-h-[45vh] max-h-[52vh] overflow-scroll [scrollbar-width:none]">
           <Table>
             <TableHeader className="bg-gray-50">
               <TableRow>
-                <TableHead className="w-12">
+                <TableHead className=" w-12 font-semibold text-textCustomDark bg-secondaryBackground border-b border-gray-200">
                   <input
                     type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                    className="h-4 w-4 rounvded border-gray-300 text-primary focus:ring-primary"
                     checked={
                       data.data.length > 0 &&
                       selectedRows.length === data.data.length
@@ -250,10 +239,10 @@ export default function Page() {
                     onChange={handleSelectAll}
                   />
                 </TableHead>
-                <TableHead>To Phone</TableHead>
-                <TableHead>Student Name</TableHead>
+                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">To Phone</TableHead>
+                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Student Name</TableHead>
                 {/* <TableHead></TableHead> */}
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead className="text-right font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -297,7 +286,6 @@ export default function Page() {
                               className="text-red-500 hover:text-red-700 hover:bg-red-50"
                             >
                               <Trash size={16} className="mr-1" />
-                              <span>Remove</span>
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>

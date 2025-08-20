@@ -56,7 +56,7 @@ const loading = isLoading || isFetching;
       const exportParams = {
         startDate: format(dateRange.from, 'yyyy-MM-dd'),
         endDate: format(dateRange.to, 'yyyy-MM-dd'),
-        nin: nin + ',schedule',
+        nin: nin + 'schedule',
         search,
         ...(attempt && { attempt }),
       };
@@ -97,11 +97,8 @@ const loading = isLoading || isFetching;
             }}
           />
           <ExportDialog
-            isExporting={isExporting}
-            onExport={(range) => {
-              setDateRange(range)
-              handleExport()
-            }}
+          search={search}
+          nin={nin}
           />
 
           <div className="flex justify-end">

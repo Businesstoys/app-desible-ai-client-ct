@@ -110,7 +110,7 @@ export default function DashboardPage() {
         {
             label: 'Total Calls Done',
             value: kpiLoading ? '–' : fmt(tc.value),
-            icon: <Phone className="text-orange-500" size={20} />,
+            icon: <Phone className="text-blue-800" size={20} />,
             trend: tc.trend,
             trendUp: tc.trendUp,
         },
@@ -195,23 +195,6 @@ export default function DashboardPage() {
         }
         return null;
     };
-
-    return (
-        <div className="bg-gray-50 min-h-screen">
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <img 
-          src="/image.png" 
-          alt="Full screen image"
-          className="h-auto object-contain"
-          style={{
-            minHeight: '100vh',
-            width: 'auto'
-          }}
-        />
-      </div>
-    </div>
-    )
-
 
     return (
         <div className="p-6 bg-gray-50 min-h-screen">

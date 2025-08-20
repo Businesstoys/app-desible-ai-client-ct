@@ -288,7 +288,7 @@ export function ScheduleLogTable({
     return (
         <>
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto min-h-[68vh] overflow-scroll [scrollbar-width:none]">
                     <Table>
                         <TableHeader className="bg-gradient-to-r from-gray-50 to-gray-100">
                             <TableRow className="border-b border-gray-200">
@@ -298,18 +298,19 @@ export function ScheduleLogTable({
                                     sortBy={sortBy}
                                     sortOrder={sortOrder}
                                     onSort={handleSortClick}
-                                    className="text-left"
+                                    className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200 text-left"
+                                    // className="text-left"
                                 />
-                                <TableHead className="font-semibold text-gray-700 w-48">Status</TableHead>
-                                <TableHead className="font-semibold text-gray-700 w-32">Phone</TableHead>
-                                <TableHead className="font-semibold text-gray-700 w-40">Student</TableHead>
+                                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Status</TableHead>
+                                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Phone</TableHead>
+                                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Student</TableHead>
 
                                 {/* Removed duration, added Scheduled For column */}
-                                <TableHead className="text-center font-semibold text-gray-700 w-48">
+                                <TableHead className="font-semibold text-textCustomDark w-48 bg-secondaryBackground border-b border-gray-200">
                                     Scheduled
                                 </TableHead>
 
-                                <TableHead className="text-center font-semibold text-gray-700 w-32">Actions</TableHead>
+                                <TableHead className="font-semibold text-textCustomDark w-32 bg-secondaryBackground border-b border-gray-200">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>

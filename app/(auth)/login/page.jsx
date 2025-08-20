@@ -52,7 +52,6 @@ export default function Page() {
                 router.replace('/')
             }
         } catch (error) {
-            debugger
             showErrorToast("Failed", {
                 description: error?.message,
             })

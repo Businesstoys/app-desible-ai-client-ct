@@ -276,7 +276,7 @@ export function LogTable({
     <>
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex flex-col">
         <div className="overflow-x-auto">
-          <div className="max-h-[75vh] overflow-y-auto">
+          <div className="max-h-[67vh] overflow-y-auto [scrollbar-width:none]">
             <Table className="w-full">
               <TableHeader className="sticky top-0 z-20">  {/* no bg here */}
                 <TableRow className="border-b border-gray-200">
@@ -288,19 +288,19 @@ export function LogTable({
                     onSort={handleSortClick}
                     className="text-left"
                   />
-                  <TableHead className="font-semibold text-textCustomDark w-40 bg-[#E0EBF5] border-b border-gray-200">
+                  <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">
                     Status
                   </TableHead>
-                  <TableHead className="font-semibold text-textCustomDark w-40 bg-[#E0EBF5] border-b border-gray-200">
+                  <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">
                     Phone
                   </TableHead>
-                  <TableHead className="font-semibold text-textCustomDark w-40 bg-[#E0EBF5] border-b border-gray-200">
+                  <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">
                     Customer
                   </TableHead>
-                   <TableHead className="font-semibold text-textCustomDark w-40 bg-[#E0EBF5] border-b border-gray-200">
+                   <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">
                     Duration
                   </TableHead>
-                  <TableHead className="text-center font-semibold text-textCustomDark w-32 bg-[#E0EBF5] border-b border-gray-200">
+                  <TableHead className="text-center font-semibold text-textCustomDark w-32 bg-secondaryBackground border-b border-gray-200">
                     Actions
                   </TableHead>
                 </TableRow>
