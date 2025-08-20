@@ -110,7 +110,7 @@ export default function DashboardPage() {
         {
             label: 'Total Calls Done',
             value: kpiLoading ? '–' : fmt(tc.value),
-            icon: <Phone className="text-orange-500" size={20} />,
+            icon: <Phone className="text-blue-800" size={20} />,
             trend: tc.trend,
             trendUp: tc.trendUp,
         },
