@@ -1,100 +1,161 @@
-import React, { useState, useEffect } from "react"
-import { TrendingDown, Loader2, Phone, PhoneOff, PhoneCall } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from "recharts"
+import React, { useState, useEffect } from 'react';
+import {
+  TrendingDown,
+  Loader2,
+  Phone,
+  PhoneOff,
+  PhoneCall,
+} from 'lucide-react';
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  Label,
+} from 'recharts';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from '@/components/ui/card';
 import {
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
-} from "@/components/ui/chart"
+} from '@/components/ui/chart';
 
 const chartConfig = {
   connected: {
-    label: "Connected Calls",
-    color: "hsl(142, 69%, 58%)",
+    label: 'Connected Calls',
+    color: 'hsl(196, 100%, 28%)',
     icon: Phone,
   },
   notConnected: {
-    label: "Not Connected Calls", 
-    color: "hsl(0, 70%, 65%)",
+    label: 'Not Connected Calls',
+    color: 'hsl(210, 17.5%, 84.31%)',
     icon: PhoneOff,
   },
-}
+};
 
 const ChartSkeleton = () => (
-  <div className="animate-pulse">
-    <div className="h-4 bg-muted rounded w-1/3 mb-2"></div>
-    <div className="h-3 bg-muted/60 rounded w-1/2 mb-6"></div>
-    <div className="space-y-3">
-      <div className="flex items-end space-x-1">
+  <div className='animate-pulse'>
+    <div className='mb-2 h-4 w-1/3 rounded bg-muted'></div>
+    <div className='mb-6 h-3 w-1/2 rounded bg-muted/60'></div>
+    <div className='space-y-3'>
+      <div className='flex items-end space-x-1'>
         {Array.from({ length: 15 }, (_, i) => (
-          <div 
+          <div
             key={i}
-            className="bg-muted rounded-t flex-1"
+            className='flex-1 rounded-t bg-muted'
             style={{ height: `${Math.random() * 150 + 50}px` }}
           ></div>
         ))}
       </div>
-      <div className="h-8 bg-muted/40 rounded"></div>
+      <div className='h-8 rounded bg-muted/40'></div>
     </div>
   </div>
-)
+);
 
 export default function CallAttemptsChart({ data, loading = false }) {
-  const [isLoading] = useState(loading)
+  const [isLoading] = useState(loading);
 
-  const chartData = data && data.length > 0 ? data : []
+  // const chartData = data && data.length > 0 ? data : [];
+  const chartData = [
+    {
+      attempt: 1,
+      connected: 247,
+      connectedPercentage: 56.91,
+      notConnected: 187,
+      notConnectedPercentage: 43.09,
+      total: 434,
+    },
+    {
+      attempt: 2,
+      connected: 180,
+      connectedPercentage: 60.0,
+      notConnected: 120,
+      notConnectedPercentage: 40.0,
+      total: 300,
+    },
+    {
+      attempt: 3,
+      connected: 210,
+      connectedPercentage: 70.0,
+      notConnected: 90,
+      notConnectedPercentage: 30.0,
+      total: 300,
+    },
+  ];
 
-  console.log(chartData)
+  console.log(chartData);
 
-  const totalAttempts = chartData.reduce((sum, item) => sum + item.total, 0)
-  const totalConnected = chartData.reduce((sum, item) => sum + item.connected, 0)
-  const overallSuccessRate = ((totalConnected / totalAttempts) * 100).toFixed(1)
+  const totalAttempts = chartData.reduce((sum, item) => sum + item.total, 0);
+  const totalConnected = chartData.reduce(
+    (sum, item) => sum + item.connected,
+    0,
+  );
+  const overallSuccessRate = ((totalConnected / totalAttempts) * 100).toFixed(
+    1,
+  );
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
-      const data = payload[0].payload
+      const data = payload[0].payload;
       return (
-        <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border border-gray-200/60 dark:border-gray-700/60 rounded-xl shadow-xl p-4">
-          <p className="font-semibold mb-3 text-gray-900 dark:text-gray-100">Call Attempt {label}</p>
-          <div className="space-y-2 text-sm">
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 shadow-sm"></div>
-                <span className="text-gray-700 dark:text-gray-300">Connected</span>
+        <div className='rounded-xl border border-gray-200/60 bg-white/95 p-4 shadow-xl backdrop-blur-md dark:border-gray-700/60 dark:bg-gray-900/95'>
+          <p className='mb-3 font-semibold text-gray-900 dark:text-gray-100'>
+            Call Attempt {label}
+          </p>
+          <div className='space-y-2 text-sm'>
+            <div className='flex items-center justify-between gap-4'>
+              <div className='flex items-center gap-2'>
+                <div
+                  className='h-3 w-3 rounded-full shadow-sm'
+                  style={{ backgroundColor: '#00698F' }}
+                ></div>
+                <span className='text-gray-700 dark:text-gray-300'>
+                  Connected
+                </span>
               </div>
-              <span className="font-medium text-gray-900 dark:text-gray-100">{data.connected} ({data.connectedPercentage.toFixed(1)}%)</span>
+              <span className='font-medium text-gray-900 dark:text-gray-100'>
+                {data.connected} ({data.connectedPercentage.toFixed(1)}%)
+              </span>
             </div>
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-red-400 to-rose-500 shadow-sm"></div>
-                <span className="text-gray-700 dark:text-gray-300">Not Connected</span>
+            <div className='flex items-center justify-between gap-4'>
+              <div className='flex items-center gap-2'>
+                <div
+                  className='h-3 w-3 rounded-full shadow-sm'
+                  style={{ backgroundColor: '#D0D7DE' }}
+                ></div>
+                <span className='text-gray-700 dark:text-gray-300'>
+                  Not Connected
+                </span>
               </div>
-              <span className="font-medium text-gray-900 dark:text-gray-100">{data.notConnected} ({data.notConnectedPercentage.toFixed(1)}%)</span>
+              <span className='font-medium text-gray-900 dark:text-gray-100'>
+                {data.notConnected} ({data.notConnectedPercentage.toFixed(1)}%)
+              </span>
             </div>
-            <div className="pt-2 border-t border-gray-200 dark:border-gray-700 text-xs text-muted-foreground">
-              <span className="font-medium">Total Calls: {data.total}</span>
+            <div className='border-t border-gray-200 pt-2 text-xs text-muted-foreground dark:border-gray-700'>
+              <span className='font-medium'>Total Calls: {data.total}</span>
             </div>
           </div>
         </div>
-      )
+      );
     }
-    return null
-  }
+    return null;
+  };
 
   if (isLoading) {
     return (
-      <Card className="w-full shadow-lg border-0 bg-gradient-to-br from-white to-gray-50/30 dark:from-gray-900 dark:to-gray-800/30 backdrop-blur-sm">
+      <Card className='w-full border-0 bg-gradient-to-br from-white to-gray-50/30 shadow-lg backdrop-blur-sm dark:from-gray-900 dark:to-gray-800/30'>
         <CardHeader>
-          <div className="flex items-center gap-2">
-            <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+          <div className='flex items-center gap-2'>
+            <Loader2 className='h-5 w-5 animate-spin text-muted-foreground' />
             <CardTitle>Connection Attempts Analysis</CardTitle>
           </div>
           <CardDescription>Loading call connection data...</CardDescription>
@@ -103,76 +164,103 @@ export default function CallAttemptsChart({ data, loading = false }) {
           <ChartSkeleton />
         </CardContent>
       </Card>
-    )
+    );
   }
 
   return (
-    <Card className="w-full my-8">
+    <Card className='my-8 w-full'>
       <CardHeader>
-        <CardTitle className="flex items-center gap-3">
-          <div className="p-3 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-950/50 dark:to-indigo-950/50 rounded-xl border border-blue-200/50 dark:border-blue-800/50">
-            <PhoneCall className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+        <CardTitle className='flex items-center gap-3'>
+          <div className='rounded-xl border border-blue-200/50 bg-gradient-to-br from-blue-50 to-indigo-100 p-3 dark:border-blue-800/50 dark:from-blue-950/50 dark:to-indigo-950/50'>
+            <PhoneCall className='h-5 w-5 text-blue-600 dark:text-blue-400' />
           </div>
           <div>
-            <span className="bg-gradient-to-r from-gray-900 to-gray-700 dark:from-gray-100 dark:to-gray-300 bg-clip-text text-transparent font-semibold">
+            <span className='bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text font-semibold text-transparent dark:from-gray-100 dark:to-gray-300'>
               Call Connection Analysis
             </span>
           </div>
         </CardTitle>
-        <CardDescription className="text-muted-foreground/80">
-          Call success rate analysis across {chartData.length} connection attempts with detailed performance insights
+        <CardDescription className='text-muted-foreground/80'>
+          Call success rate analysis across {chartData.length} connection
+          attempts with detailed performance insights
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="bg-gradient-to-br from-white to-gray-50/50 dark:from-gray-900 dark:to-gray-800/50 rounded-xl p-1 border border-gray-200/60 dark:border-gray-700/60">
-          <ChartContainer config={chartConfig}>
-            <ResponsiveContainer width="100%" height={400}>
-              <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid 
-                  strokeDasharray="3 3" 
-                  className="stroke-muted/40" 
-                  vertical={false} 
+        <div className='h-fit max-h-[400px] overflow-hidden rounded-xl border border-gray-200/60 bg-gradient-to-br from-white to-gray-50/50 p-1 dark:border-gray-700/60 dark:from-gray-900 dark:to-gray-800/50'>
+          <ChartContainer config={chartConfig} className='h-fit max-h-[600px]'>
+            <ResponsiveContainer width='100%' aspect={3}>
+              <BarChart
+                layout='vertical'
+                data={chartData}
+                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                barCategoryGap='2%' // 🔥 CHANGED: Much lower percentage
+                barGap={2}
+              >
+                <CartesianGrid
+                  strokeDasharray='3 3'
+                  className='stroke-muted/40'
+                  vertical={false}
                 />
-                <XAxis 
-                  dataKey="attempt"
+                <XAxis
+                  // dataKey="attempt"
+                  type='number'
                   tickLine={false}
-                  tickMargin={10}
+                  // tickMargin={10}
                   axisLine={false}
                   tick={{ fontSize: 12, fontWeight: 500 }}
-                  className="text-muted-foreground/70"
+                  // className='text-muted-foreground/70'
+                  // tickFormatter={(value) => `Attempt ${value}`}
+                />
+                <YAxis
+                  dataKey='attempt'
+                  type='category'
+                  width={100}
+                  tickLine={false}
+                  axisLine={false}
+                  tick={{ fontSize: 12, fontWeight: 500 }}
+                  // className='text-muted-foreground/70'
                   tickFormatter={(value) => `Attempt ${value}`}
+                >
+                  <Label
+                    value='Attempt'
+                    angle={-90}
+                    position='insideLeft'
+                    offset={20}
+                    style={{
+                      textAnchor: 'middle',
+                      fontSize: 14,
+                      fontWeight: 'bold',
+                    }}
+                  />
+                </YAxis>
+                <ChartTooltip
+                  content={<CustomTooltip />}
+                  cursor={{ height: 'fit-content' }}
                 />
-                <YAxis 
-                  tickLine={false}
-                  axisLine={false}
-                  tick={{ fontSize: 12, fontWeight: 500 }}
-                  className="text-muted-foreground/70"
-                />
-                <ChartTooltip content={<CustomTooltip />} />
-                <ChartLegend 
+                <ChartLegend
                   content={<ChartLegendContent />}
-                  wrapperStyle={{ paddingTop: '20px' }}
+                  // wrapperStyle={{ paddingTop: '20px' }}
                 />
                 <Bar
-                  dataKey="connected"
-                  stackId="a"
-                  fill="var(--color-connected)"
-                  radius={[0, 0, 6, 6]}
-                  name="Connected Calls"
+                  dataKey='connected'
+                  stackId='a'
+                  fill='var(--color-connected)'
+                  radius={[1, 3, 3, 1]}
+                  name='Connected Calls'
+                  barSize={30} // You had 40, increase to 50 or 60
                 />
                 <Bar
-                  dataKey="notConnected"
-                  stackId="a"
-                  fill="var(--color-notConnected)"
-                  radius={[6, 6, 0, 0]}
-                  name="Not Connected Calls"
+                  dataKey='notConnected'
+                  stackId='a'
+                  fill='var(--color-notConnected)'
+                  radius={[1, 3, 3, 1]}
+                  name='Not Connected Calls'
                 />
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
         </div>
       </CardContent>
-
     </Card>
-  )
+  );
 }
