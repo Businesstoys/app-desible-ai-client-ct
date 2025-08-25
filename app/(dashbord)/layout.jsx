@@ -12,12 +12,12 @@ export default function Layout({ children }) {
   const router = useRouter()
   const isDashboard = pathname?.startsWith('/dashboard')
 
-  useEffect(() => {
-    const token = getCookie(CONSTANTS.TOKEN_KEY)
-    if (!token) {
-      router.push('/login')
-    }
-  }, [router])
+  // useEffect(() => {
+  //   const token = getCookie(CONSTANTS.TOKEN_KEY)
+  //   if (!token) {
+  //     router.push('/login')
+  //   }
+  // }, [router])
 
   return (
     <PanelLayout scroll={isDashboard ? "page" : "container"}>
