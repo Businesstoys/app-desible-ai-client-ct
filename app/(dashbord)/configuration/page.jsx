@@ -1,17 +1,24 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useGetStaticsQuery, useUpdateConfigMutation } from '@/store';
 import { showErrorToast, showSuccessToast } from '@/components/ui/toast';
 import DropdownSelect from '@/components/ui/dropdown';
 
 export default function Configuration() {
-  const { data: staticData, isLoading } = useGetStaticsQuery();
+  const { data: staticData } = useGetStaticsQuery();
   const [updateConfig, { isLoading: Loading }] = useUpdateConfigMutation();
+
   const [phone, setPhone] = useState('');
   const [voice, setVoice] = useState('');
-  const [prompt, setPrompt] = useState(
-    'Hello! This is David. I’m currently unable to answer your call, but I’d love to hear from you. Please leave your name and a message after the beep, and I promise to return your call as soon as possible. Thank you!',
-  );
+  const [prompt, setPrompt] = useState('');
+
+   useEffect(() => {
+    if (staticData?.data) {
+      setPhone(staticData.data.selectedNumber || '');
+      setVoice(staticData.data.selectedVoice || '');
+      setPrompt(staticData.data.prompt || '');
+    }
+  }, [staticData]);
 
   const handleClick = async () => {
     try {
