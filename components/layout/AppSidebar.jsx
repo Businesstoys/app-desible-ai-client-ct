@@ -2,7 +2,7 @@
 
 import React from "react"
 import { useSelector } from "react-redux"
-import { Clock, LayoutDashboard, LogsIcon, History } from "lucide-react"
+import { Clock, LayoutDashboard, LogsIcon, History, Settings } from "lucide-react"
 
 import {
   Sidebar,
@@ -26,13 +26,13 @@ const data = {
     { name: "Logs", url: "/", icon: LogsIcon },
     { name: "Queued Calls", url: "/queued-calls", icon: Clock },
     { name: "Schedule Calls", url: "/schedule-calls", icon: History },
+     { name: "Configuration", url: "/configuration", icon: Settings },
   ],
 }
 
 export function AppSidebar(props) {
   const { state } = useSidebar()
   const user = useSelector((s) => s.user)
-  console.log({ user  })
   const isExpanded = state === "expanded"
 
   return (

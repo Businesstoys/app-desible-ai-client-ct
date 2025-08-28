@@ -38,7 +38,9 @@ export {
 export {
   useGetQueueStatusQuery,
   useStartQueueMutation,
-  useStopQueueMutation
+  useStopQueueMutation,
+  useGetStaticsQuery,
+  useUpdateConfigMutation
 } from './api/staticApi'
 
 export {
