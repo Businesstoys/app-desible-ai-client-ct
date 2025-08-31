@@ -17,11 +17,23 @@ const staticApi = api.injectEndpoints({
                 method: 'POST'
             }),
         }),
+        getStatics: builder.query({
+            query: () => '/static/statics-config',
+        }),
+        updateConfig: builder.mutation({
+            query: (data)=> ({
+            url : 'static/config',
+            method: 'POST',
+            body: data,
+        })
+        })
     }),
     overrideExisting: true
 })
 export const {
     useStopQueueMutation,
     useStartQueueMutation,
-    useGetQueueStatusQuery     
+    useGetQueueStatusQuery,
+    useGetStaticsQuery,
+    useUpdateConfigMutation    
 } = staticApi
