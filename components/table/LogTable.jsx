@@ -54,6 +54,7 @@ import { useDeleteCallMutation, useHandUpCallMutation } from "@/store";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { formatDateTime } from "@/utils";
 import { CallDetailsSheet } from "@/components/call-details-sheet"
+import { formatDuration } from "@/utils/format-duration"
 
 const getStatusIcon = (status) => {
   switch (status) {
@@ -129,15 +130,6 @@ const getStatusBadge = (call) => {
   );
 };
 
-function formatDuration(seconds) {
-  if (seconds >= 60) {
-    const minutes = Math.floor(seconds / 60)
-    const remainingSeconds = seconds % 60
-    return `${minutes} min ${remainingSeconds} sec`
-  } else {
-    return `${seconds} sec`
-  }
-}
 
 const SortableHeader = ({ field, label, sortBy, sortOrder, onSort, className = "" }) => {
   const isActive = sortBy === field;
@@ -204,8 +196,9 @@ export function LogTable({
   const [callToDelete, setCallToDelete] = useState(null);
   const [scheduleHistoryOpen, setScheduleHistoryOpen] = useState(false);
   const [selectedCallHistory, setSelectedCallHistory] = useState(null);
-  const [onHangUpCall, { isLoading }] = useHandUpCallMutation()
-  const [deleteCall, { isLoading: isDeleteLoading }] = useDeleteCallMutation()
+
+  const [deleteCall, { isLoading }] = useDeleteCallMutation()
+
   const { toast } = useToast()
 
   const handleMoreOptionsClick = (call) => {
@@ -213,22 +206,6 @@ export function LogTable({
     setIsSheetOpen(true);
   };
 
-  const handleHangUpClick = async (callId) => {
-    try {
-      await onHangUpCall(callId).unwrap()
-      refetch()
-      toast({
-        title: 'Call Hung Up',
-        description: `Call hung up successfully`,
-      })
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to hang up call.',
-        variant: 'destructive',
-      })
-    }
-  }
 
   const handleDeleteClick = (call) => {
     setCallToDelete(call);
@@ -276,7 +253,7 @@ export function LogTable({
     <>
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex flex-col">
         <div className="overflow-x-auto">
-          <div className="max-h-[75vh] overflow-y-auto">
+          <div className="max-h-[67vh] overflow-y-auto [scrollbar-width:none]">
             <Table className="w-full">
               <TableHeader className="sticky top-0 z-20">  {/* no bg here */}
                 <TableRow className="border-b border-gray-200">
@@ -288,19 +265,19 @@ export function LogTable({
                     onSort={handleSortClick}
                     className="text-left"
                   />
-                  <TableHead className="font-semibold text-textCustomDark w-40 bg-[#E0EBF5] border-b border-gray-200">
+                  <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">
                     Status
                   </TableHead>
-                  <TableHead className="font-semibold text-textCustomDark w-40 bg-[#E0EBF5] border-b border-gray-200">
+                  <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">
                     Phone
                   </TableHead>
-                  <TableHead className="font-semibold text-textCustomDark w-40 bg-[#E0EBF5] border-b border-gray-200">
+                  <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">
                     Customer
                   </TableHead>
-                   <TableHead className="font-semibold text-textCustomDark w-40 bg-[#E0EBF5] border-b border-gray-200">
+                   <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">
                     Duration
                   </TableHead>
-                  <TableHead className="text-center font-semibold text-textCustomDark w-32 bg-[#E0EBF5] border-b border-gray-200">
+                  <TableHead className="text-center font-semibold text-textCustomDark w-32 bg-secondaryBackground border-b border-gray-200">
                     Actions
                   </TableHead>
                 </TableRow>
@@ -376,8 +353,8 @@ export function LogTable({
 
                       <TableCell className="align-top py-4">
                         <div className="flex flex-col">
-                          <span className="font-medium text-gray-900">{call.studentName}</span>
-                          {call?.schoolName && <span className="text-xs text-gray-500">{call?.schoolName}</span>}
+                          <span className="font-medium text-gray-900">{call.carrierName}</span>
+                          {call?.shipmentNumber && <span className="text-xs text-gray-500">{call?.shipmentNumber}</span>}
                           {call?.location && <span className="text-xs text-gray-500">{call?.location}</span>}
                         </div>
                       </TableCell>
@@ -420,7 +397,7 @@ export function LogTable({
           </div>
         </div>
 
-        {/* Fixed footer (outside the scrollable table) */}
+  
         <div className="py-4 px-6 flex flex-col sm:flex-row justify-between items-center border-t border-gray-200 bg-gray-50 gap-4">
           <div className="text-sm text-gray-600">
             Showing <span className="font-medium">{data.length > 0 ? (page - 1) * perPage + 1 : 0}</span> to{' '}
@@ -472,7 +449,7 @@ export function LogTable({
         </div>
       </div>
 
-      {/* Schedule History Dialog */}
+
       <Dialog open={scheduleHistoryOpen} onOpenChange={setScheduleHistoryOpen}>
         <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
           <DialogHeader>
@@ -496,11 +473,11 @@ export function LogTable({
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div>
                     <span className="font-medium text-gray-700">Customer:</span>
-                    <div className="text-gray-900">{selectedCallHistory.customerName}</div>
+                    <div className="text-gray-900">{selectedCallHistory.carrierName}</div>
                   </div>
                   <div>
                     <span className="font-medium text-gray-700">Phone:</span>
-                    <div className="text-gray-900">{selectedCallHistory.toPhone}</div>
+                    <div className="text-gray-900">{selectedCallHistory.shipmentNumber}</div>
                   </div>
                   <div>
                     <span className="font-medium text-gray-700">Attempt:</span>
@@ -622,11 +599,11 @@ export function LogTable({
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
-              onClick={handleDeleteConfirm}
-              disabled={isDeleteLoading}
+              onClick={isLoading}
+              disabled={isLoading}
               className="bg-red-600 hover:bg-red-700 text-white"
             >
-              {isDeleteLoading ? (
+              {isLoading ? (
                 <div className="flex items-center gap-2">
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                   Deleting...

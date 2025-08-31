@@ -152,14 +152,14 @@ export default function Page() {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          {/* Queue Control Buttons */}
+
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   variant={isQueueRunning ? "secondary" : "success"}
                   size="sm"
-                  className="flex items-center gap-1"
+                  className="flex items-center gap-1 bg-inherit rounded-md border w-max"
                   onClick={() =>
                     isQueueRunning
                       ? handleQueueStatusChange(stopQueue, "Queue stopped.")
@@ -183,66 +183,26 @@ export default function Page() {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-        </div>
-      </div>
-
-      {/* Info Alert */}
-      {showInfoAlert && (
-        <Alert className="mb-4 bg-blue-50 border-blue-100">
-          <div className="flex items-start">
-            <Info className="h-5 w-5 text-blue-500 mt-0.5 mr-2" />
-            <div className="flex-1">
-              <AlertDescription className="text-sm text-blue-700">
-                When calls are removed from the queue, they will automatically go
-                to contact list page.
-                <Button
-                  variant="link"
-                  className="ml-2 p-0 h-auto text-blue-700 underline"
-                  onClick={() => setShowInfoAlert(false)}
-                >
-                  Dismiss
-                </Button>
-              </AlertDescription>
-            </div>
-          </div>
-        </Alert>
-      )}
-
-      {/* Manually trigger refetch button */}
-      <div className="mb-4 flex items-center gap-2">
-        <Button 
+          <Button 
           variant="outline" 
           size="sm" 
           onClick={() => refetch()}
-          className="text-blue-600 hover:text-blue-800 hover:bg-blue-50"
         >
-          Refresh Data
           <RefreshCcw size={10}/>
         </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => refetchQueueStatus()}
-          className="text-blue-600 hover:text-blue-800 hover:bg-blue-50"
-        >
-          Refresh Queue Status
-          <RefreshCcw size={10}/>
-        </Button>
-        {isQueueStatusLoading && (
-          <span className="ml-2 text-xs text-gray-400">Checking queue...</span>
-        )}
+        </div>
       </div>
 
       {/* Table */}
       <div className="bg-white rounded-md shadow-sm border border-gray-100 overflow-hidden">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto min-h-[45vh] max-h-[52vh] overflow-scroll [scrollbar-width:none]">
           <Table>
             <TableHeader className="bg-gray-50">
               <TableRow>
-                <TableHead className="w-12">
+                <TableHead className=" w-12 font-semibold text-textCustomDark bg-secondaryBackground border-b border-gray-200">
                   <input
                     type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                    className="h-4 w-4 rounvded border-gray-300 text-primary focus:ring-primary"
                     checked={
                       data.data.length > 0 &&
                       selectedRows.length === data.data.length
@@ -250,10 +210,10 @@ export default function Page() {
                     onChange={handleSelectAll}
                   />
                 </TableHead>
-                <TableHead>To Phone</TableHead>
-                <TableHead>Student Name</TableHead>
-                {/* <TableHead></TableHead> */}
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">To Phone</TableHead>
+                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Account Name</TableHead>
+                <TableHead className="text-right font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Driver Name</TableHead>
+                 <TableHead className="text-right font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Shipment Number</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -284,8 +244,9 @@ export default function Page() {
                       />
                     </TableCell>
                     <TableCell className="font-medium">{call.toPhone}</TableCell>
-                    <TableCell>{call.studentName}</TableCell>
-                    {/* <TableCell>{call.gender}</TableCell> */}
+                    <TableCell>{call.accountName}</TableCell>
+                    <TableCell>{call.driverName}</TableCell>
+                    <TableCell>{call.shipmentNumber}</TableCell>
                     <TableCell className="text-right">
                       <TooltipProvider>
                         <Tooltip>
@@ -297,7 +258,6 @@ export default function Page() {
                               className="text-red-500 hover:text-red-700 hover:bg-red-50"
                             >
                               <Trash size={16} className="mr-1" />
-                              <span>Remove</span>
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>

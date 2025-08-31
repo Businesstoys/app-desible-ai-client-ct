@@ -6,9 +6,3 @@ export const CONSTANTS = {
 }
 
  export const ONGOING_CALL_STATUSES = ['initiate', 'ringing', 'in-progress']
-
-
-
-
-
-
