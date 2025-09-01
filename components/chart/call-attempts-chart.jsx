@@ -94,8 +94,8 @@ export default function CallAttemptsChart({ data, loading = false }) {
 
   console.log(chartData);
 
-  const totalAttempts = chartData.reduce((sum, item) => sum + item.total, 0);
-  const totalConnected = chartData.reduce(
+  const totalAttempts = chartData?.reduce((sum, item) => sum + item.total, 0);
+  const totalConnected = chartData?.reduce(
     (sum, item) => sum + item.connected,
     0,
   );
@@ -181,7 +181,7 @@ export default function CallAttemptsChart({ data, loading = false }) {
           </div>
         </CardTitle>
         <CardDescription className='text-muted-foreground/80'>
-          Call success rate analysis across {chartData.length} connection
+          Call success rate analysis across {chartData?.length} connection
           attempts with detailed performance insights
         </CardDescription>
       </CardHeader>
@@ -202,14 +202,10 @@ export default function CallAttemptsChart({ data, loading = false }) {
                   vertical={false}
                 />
                 <XAxis
-                  // dataKey="attempt"
                   type='number'
                   tickLine={false}
-                  // tickMargin={10}
                   axisLine={false}
                   tick={{ fontSize: 12, fontWeight: 500 }}
-                  // className='text-muted-foreground/70'
-                  // tickFormatter={(value) => `Attempt ${value}`}
                 />
                 <YAxis
                   dataKey='attempt'
@@ -218,7 +214,6 @@ export default function CallAttemptsChart({ data, loading = false }) {
                   tickLine={false}
                   axisLine={false}
                   tick={{ fontSize: 12, fontWeight: 500 }}
-                  // className='text-muted-foreground/70'
                   tickFormatter={(value) => `Attempt ${value}`}
                 >
                   <Label
@@ -239,7 +234,6 @@ export default function CallAttemptsChart({ data, loading = false }) {
                 />
                 <ChartLegend
                   content={<ChartLegendContent />}
-                  // wrapperStyle={{ paddingTop: '20px' }}
                 />
                 <Bar
                   dataKey='connected'
@@ -247,7 +241,7 @@ export default function CallAttemptsChart({ data, loading = false }) {
                   fill='var(--color-connected)'
                   radius={[1, 3, 3, 1]}
                   name='Connected Calls'
-                  barSize={30} // You had 40, increase to 50 or 60
+                  barSize={30}
                 />
                 <Bar
                   dataKey='notConnected'

@@ -8,12 +8,11 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
 import { useUploadMutation } from "@/store";
+import { showErrorToast, showSuccessToast } from "./toast";
 
 export default function UploadDropdown({ refetch }) {
     const [uploadFile] = useUploadMutation();
-    const { toast } = useToast();
 
     const fileInputRef = useRef(null);
 
@@ -38,16 +37,12 @@ export default function UploadDropdown({ refetch }) {
         try {
             await uploadFile(formData).unwrap();
             refetch();
-            toast({
-                title: "Success!",
+            showSuccessToast("Success!",{
                 description: "File uploaded successfully.",
-                status: "success",
             });
         } catch (error) {
-            toast({
-                title: "Uh oh! Something went wrong.",
+            showErrorToast("Uh oh! Something went wrong.",{
                 description: error?.data?.message || "Please try again.",
-                status: "error",
             });
         }
         setFileKey(Date.now());

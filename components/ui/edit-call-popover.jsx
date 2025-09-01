@@ -17,13 +17,12 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 // import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useUdpateCallMutation } from "@/store"
-import { useToast } from "@/hooks/use-toast"
+import { showErrorToast } from "./toast"
 
 export function EditCallDialog({ call, index, onSave }) {
     const [open, setOpen] = useState(false);
     const [editedCall, setEditedCall] = useState(null);
     const [updateCall, { isLoading }] = useUdpateCallMutation()
-    const { toast } = useToast()
 
     const handleOpenChange = (isOpen) => {
         setOpen(isOpen);
@@ -59,12 +58,10 @@ export function EditCallDialog({ call, index, onSave }) {
             onSave?.();
             setOpen(false);
         } catch (error) {
-            debugger
-            toast({
-                title: "Failed",
+            showErrorToast('Failed', {
                 description: error?.data?.message,
-                variant: "failure"
-            });
+            })
+
         }
     }
 

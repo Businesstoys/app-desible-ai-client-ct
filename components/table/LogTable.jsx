@@ -47,7 +47,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 
-import { useToast } from "@/hooks/use-toast";
 import { ONGOING_CALL_STATUSES } from "@/constants";
 import { useDeleteCallMutation, useHandUpCallMutation } from "@/store";
 
@@ -55,6 +54,9 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/
 import { formatDateTime } from "@/utils";
 import { CallDetailsSheet } from "@/components/call-details-sheet"
 import { formatDuration } from "@/utils/format-duration"
+import { ReviewIcon } from "@/public/svg/ReviewIcon";
+import { VerifiedIcon } from "@/public/svg/VerifiedIcon";
+import { showErrorToast, showSuccessToast } from "../ui/toast";
 
 const getStatusIcon = (status) => {
   switch (status) {
@@ -199,8 +201,6 @@ export function LogTable({
 
   const [deleteCall, { isLoading }] = useDeleteCallMutation()
 
-  const { toast } = useToast()
-
   const handleMoreOptionsClick = (call) => {
     setCallData(call);
     setIsSheetOpen(true);
@@ -213,21 +213,20 @@ export function LogTable({
   };
 
   const handleDeleteConfirm = async () => {
-    if (!callToDelete || isDeleteLoading) return;
+    if (!callToDelete || isLoading) return;
 
     try {
       await deleteCall(callToDelete._id).unwrap()
       refetch()
-      toast({
-        title: 'Deleted',
+      showSuccessToast(
+         'Deleted',{
         description: 'Call deleted successfully.',
       })
     } catch (err) {
-      toast({
-        title: 'Error',
-        description: err?.data?.message || 'Failed to delete call.',
-        variant: 'destructive',
+      showErrorToast('Error',{
+         description: err?.data?.message || 'Failed to delete call.',
       })
+     
     } finally {
       setDeleteDialogOpen(false);
       setCallToDelete(null);
@@ -277,7 +276,10 @@ export function LogTable({
                    <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">
                     Duration
                   </TableHead>
-                  <TableHead className="text-center font-semibold text-textCustomDark w-32 bg-secondaryBackground border-b border-gray-200">
+                  <TableHead className='w-40 border-b border-gray-200 bg-secondaryBackground font-semibold text-textCustomDark'>
+                    Outcome
+                  </TableHead>
+                  <TableHead className='w-32 border-b border-gray-200 bg-secondaryBackground text-center font-semibold text-textCustomDark'>
                     Actions
                   </TableHead>
                 </TableRow>
@@ -308,7 +310,7 @@ export function LogTable({
                     <TableRow
                       key={call._id || index}
                       className={`hover:bg-gray-50 transition-colors border-b border-gray-100 ${call.isClosed || call.maxAttemptsReached ? 'bg-red-50' : ''
-                        }`}
+                      }`}
                     >
                       <TableCell className="text-center align-top py-4">
                         {(() => {
@@ -358,15 +360,36 @@ export function LogTable({
                           {call?.location && <span className="text-xs text-gray-500">{call?.location}</span>}
                         </div>
                       </TableCell>
-
-                      <TableCell className="align-top py-4">
+                       <TableCell className="align-top py-4">
                         <span className="text-sm text-gray-700">
                           {call?.callDuration ? formatDuration(call?.callDuration) : '-'}
-                        </span>
+                          </span>
+                          </TableCell>
+
+                      <TableCell className='flex py-4 align-top justify-center'>
+                        {index === 0 && (
+                          <span className='text-sm text-gray-700'>-</span>
+                        )}
+                        {index === 1 && (
+                          <div className='flex w-fit items-center gap-2 rounded-md bg-[#835006] px-2 py-1 text-white'>
+                            <span className='flex h-4 w-4 items-center justify-center rounded-full bg-white'>
+                              <ReviewIcon />
+                            </span>
+                            <span className='text-sm'>Review</span>
+                          </div>
+                        )}
+                        {index === 2 && (
+                          <div className='flex w-fit items-center gap-2 rounded-md bg-[#00942B] px-2 py-1 text-white'>
+                            <span className='flex h-4 w-4 items-center justify-center rounded-full bg-white'>
+                              <VerifiedIcon />
+                            </span>
+                            <span className='text-sm'>Verified</span>
+                          </div>
+                        )}
                       </TableCell>
 
-                      <TableCell className="align-top py-4">
-                        <div className="flex items-center justify-end gap-2">
+                      <TableCell className='py-4 align-top'>
+                        <div className='flex items-center justify-end gap-2'>
                           {call.callStatus === 'completed' && (
                             <Button
                               variant="outline"
@@ -416,23 +439,25 @@ export function LogTable({
                   setPage(1);
                 }}
               >
-                {[10, 20, 50, 100].map(n => (
-                  <option key={n} value={n}>{n}</option>
+                {[10, 20, 50, 100].map((n) => (
+                  <option key={n} value={n}>
+                    {n}
+                  </option>
                 ))}
               </select>
             </div>
 
-            <div className="flex items-center">
+            <div className='flex items-center'>
               <Button
-                onClick={() => setPage(prev => Math.max(prev - 1, 1))}
+                onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
                 disabled={page <= 1}
-                size="sm"
-                variant="outline"
-                className="h-8 w-8 p-0"
+                size='sm'
+                variant='outline'
+                className='h-8 w-8 p-0'
               >
-                <ChevronLeft className="h-4 w-4" />
+                <ChevronLeft className='h-4 w-4' />
               </Button>
-              <div className="px-4 text-sm font-medium">
+              <div className='px-4 text-sm font-medium'>
                 {page} of {totalPages || 1}
               </div>
               <Button
@@ -599,7 +624,7 @@ export function LogTable({
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
-              onClick={isLoading}
+              onClick={handleDeleteConfirm}
               disabled={isLoading}
               className="bg-red-600 hover:bg-red-700 text-white"
             >
