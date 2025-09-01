@@ -19,7 +19,6 @@ import {
   useStopQueueMutation
 } from "@/store"
 
-import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
 import {
   Tooltip,
@@ -27,10 +26,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { showErrorToast, showSuccessToast } from "@/components/ui/toast"
 
 export default function Page() {
-  const { toast } = useToast()
   const [page, setPage] = useState(1)
   const [perPage, setPerPage] = useState(10)
   const [showInfoAlert, setShowInfoAlert] = useState(true)
@@ -44,7 +42,7 @@ export default function Page() {
   const { data = { data: [], meta: { total: 0 } }, refetch, isLoading } =
     useCallListQuery(
       { in: 'queued', page, perPage },
-      { 
+      {
         refetchOnFocus: true,
         refetchOnMount: true,
         refetchOnReconnect: true,
@@ -76,17 +74,15 @@ export default function Page() {
   const handleQueueStatusChange = async (actionFn, successMsg) => {
     try {
       await actionFn().unwrap()
-      toast({
-        title: 'Success',
-        description: successMsg,
+      showSuccessToast("Success", {
+        description: successMsg
       })
       refetchQueueStatus()
     } catch {
-      toast({
-        title: 'Error',
+      showErrorToast("Error", {
         description: 'Queue status update failed.',
-        variant: 'destructive',
       })
+
     }
   }
 
@@ -107,16 +103,12 @@ export default function Page() {
   const handleUpdateCallStatus = async (ids) => {
     try {
       await updateStatus({ ids, status: 'pending' }).unwrap()
-      toast({
-        title: 'Updated',
+      showSuccessToast("Updated", {
         description: `${ids.length} call(s) moved to pending status.`,
       })
     } catch (err) {
-      toast({
-        title: 'Error',
-        description: 'Failed to update call status.',
-        variant: 'destructive',
-      })
+      showErrorToast('Error', {
+        description: 'Failed to update call status.'})
     }
   }
 
@@ -183,13 +175,13 @@ export default function Page() {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={() => refetch()}
-        >
-          <RefreshCcw size={10}/>
-        </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => refetch()}
+          >
+            <RefreshCcw size={10} />
+          </Button>
         </div>
       </div>
 
@@ -213,7 +205,7 @@ export default function Page() {
                 <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">To Phone</TableHead>
                 <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Account Name</TableHead>
                 <TableHead className="text-right font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Driver Name</TableHead>
-                 <TableHead className="text-right font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Shipment Number</TableHead>
+                <TableHead className="text-right font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Shipment Number</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

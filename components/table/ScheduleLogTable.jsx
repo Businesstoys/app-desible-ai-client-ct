@@ -40,20 +40,12 @@ import {
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog"
-
-import { useToast } from "@/hooks/use-toast";
 import { ONGOING_CALL_STATUSES } from "@/constants";
 import { useDeleteCallMutation, useHandUpCallMutation } from "@/store";
 
 import { CallDetailsSheet } from "../call-details-sheet";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import { showErrorToast, showSuccessToast } from "../ui/toast";
 
 export function formatIndiaDateTime(isoString) {
     const date = new Date(isoString);
@@ -220,7 +212,7 @@ export function ScheduleLogTable({
     const [selectedCallHistory, setSelectedCallHistory] = useState(null);
     const [onHangUpCall, { isLoading }] = useHandUpCallMutation()
     const [deleteCall, { isLoading: isDeleteLoading }] = useDeleteCallMutation()
-    const { toast } = useToast()
+
 
     const handleMoreOptionsClick = (call) => {
         setCallData(call);
@@ -231,16 +223,15 @@ export function ScheduleLogTable({
         try {
             await onHangUpCall(callId).unwrap()
             refetch()
-            toast({
-                title: 'Call Hung Up',
+            showSuccessToast("Call HangUp", {
                 description: `Call hung up successfully`,
             })
+
         } catch (error) {
-            toast({
-                title: 'Error',
+            showErrorToast('Error', {
                 description: 'Failed to hang up call.',
-                variant: 'destructive',
             })
+
         }
     }
 
@@ -255,16 +246,15 @@ export function ScheduleLogTable({
         try {
             await deleteCall(callToDelete._id).unwrap()
             refetch()
-            toast({
-                title: 'Deleted',
+            showSuccessToast('Deleted', {
                 description: 'Call deleted successfully.',
             })
+
         } catch (err) {
-            toast({
-                title: 'Error',
+            showErrorToast('Error', {
                 description: err?.data?.message || 'Failed to delete call.',
-                variant: 'destructive',
             })
+
         } finally {
             setDeleteDialogOpen(false);
             setCallToDelete(null);
@@ -299,7 +289,7 @@ export function ScheduleLogTable({
                                     sortOrder={sortOrder}
                                     onSort={handleSortClick}
                                     className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200 text-left"
-                                    // className="text-left"
+                                // className="text-left"
                                 />
                                 <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Status</TableHead>
                                 <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Phone</TableHead>

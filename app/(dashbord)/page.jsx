@@ -20,10 +20,15 @@ export default function Home() {
   const [sortBy, setSortBy] = useState('effectiveDate');
   const [sortOrder, setSortOrder] = useState('desc');
   const [attempt, setAttempt] = useState('');
-  const { toast } = useToast();
+  const [outcome, setOutcome] = useState('');
+
+  const outcomesData = [
+    { label: 'Verified', value: 'verified' },
+    { label: 'Pending', value: 'pending' },
+    { label: 'Review', value: 'review' },
+  ];
 
   const nin = 'pending,queued,deleted,schedule';
-
 
   const queryParams = {
     search,
@@ -42,45 +47,9 @@ export default function Home() {
   refetch,
 } = useCallListQuery(queryParams, { refetchOnMountOrArgChange: true });
 
-const loading = isLoading || isFetching;
-  const [exportData, { isLoading: isExporting }] = useCallDataExportMutation()
+  const loading = isLoading || isFetching;
   const meta = data.meta;
   const totalPages = Math.ceil(meta.total / perPage);
-
-  const handleExport = async () => {
-    if (!dateRange.from || !dateRange.to) {
-      alert("Please select a valid date range.");
-      return;
-    }
-    try {
-      const exportParams = {
-        startDate: format(dateRange.from, 'yyyy-MM-dd'),
-        endDate: format(dateRange.to, 'yyyy-MM-dd'),
-        nin: nin + 'schedule',
-        search,
-        ...(attempt && { attempt }),
-      };
-
-      const response = await exportData(exportParams).unwrap();
-
-      const blob = new Blob([response], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      });
-
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `call_logs_export_${format(dateRange.from, 'dd-MM-yy')}_to_${format(dateRange.to, 'dd-MM-yy')}.xlsx`;
-      a.click();
-      window.URL.revokeObjectURL(url);
-    } catch (err) {
-      toast({
-        title: 'Uh oh! Something went wrong.',
-        description: err?.status === 404 ? 'No call data found for this range.' : 'Please try again later.',
-        status: 'error',
-      });
-    }
-  }
 
   return (
     <div className="p-6 min-h-screen space-y-4">
@@ -96,19 +65,26 @@ const loading = isLoading || isFetching;
               setPage(1);
             }}
           />
-          <ExportDialog
-          search={search}
-          nin={nin}
-          />
+          <ExportDialog search={search} nin={nin} />
 
-          <div className="flex justify-end">
-            <Button variant="outline" size="sm" className="h-9" onClick={refetch}>
+          <DropdownSelect
+            value={outcome}
+            options={outcomesData}
+            onChange={setOutcome}
+            placeholder='Select Outcome'
+          />
+          <div className='flex justify-end'>
+            <Button
+              variant='outline'
+              size='sm'
+              className='h-9'
+              onClick={refetch}
+            >
               <RefreshCcw />
             </Button>
           </div>
         </div>
       </div>
-
 
       <LogTable
         data={data.data}

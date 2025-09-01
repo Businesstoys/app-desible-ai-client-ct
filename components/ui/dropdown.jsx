@@ -10,7 +10,7 @@ import {
 const DropdownSelect = ({ label, value, onChange, options, placeholder, width = '200px' }) => {
   return (
     <div className="flex gap-4 items-center">
-      <label className="mb-1 block w-28 text-sm font-medium text-gray-700">{label}</label>
+    {label && <label className="mb-1 block w-28 text-sm font-medium text-gray-700">{label}</label> }
       <Select value={value} onValueChange={onChange}>
         <SelectTrigger className={`w-[${width}]`}>
           <SelectValue placeholder={placeholder} />
