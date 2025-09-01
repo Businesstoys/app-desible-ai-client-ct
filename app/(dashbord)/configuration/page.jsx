@@ -8,13 +8,13 @@ export default function Configuration() {
   const { data: staticData } = useGetStaticsQuery();
   const [updateConfig, { isLoading: Loading }] = useUpdateConfigMutation();
 
-  const [phone, setPhone] = useState('');
-  const [voice, setVoice] = useState('');
+  const [phone, setPhone] = useState('2239847830');
+  const [voice, setVoice] = useState('en-US-LunaNeural');
   const [prompt, setPrompt] = useState('');
 
   useEffect(() => {
     if (staticData?.data) {
-      setPhone( staticData?.data?.selectedNumber || staticData.data.phoneNumbers[0],);
+      setPhone( staticData?.data?.selectedNumber || staticData.data.phoneNumbers[0].value);
       setVoice(staticData?.data?.selectedVoice || staticData.data.voices[0].value); 
 
       setPrompt(staticData?.data?.prompt || '');
