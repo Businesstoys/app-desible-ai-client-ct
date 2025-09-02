@@ -44,7 +44,7 @@ export default function Page() {
   const { data = { data: [], meta: { total: 0 } }, refetch, isLoading } =
     useCallListQuery(
       { in: 'queued', page, perPage },
-      { 
+      {
         refetchOnFocus: true,
         refetchOnMount: true,
         refetchOnReconnect: true,
@@ -183,13 +183,13 @@ export default function Page() {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={() => refetch()}
-        >
-          <RefreshCcw size={10}/>
-        </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => refetch()}
+          >
+            <RefreshCcw size={10} />
+          </Button>
         </div>
       </div>
 
@@ -212,8 +212,9 @@ export default function Page() {
                 </TableHead>
                 <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">To Phone</TableHead>
                 <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Account Name</TableHead>
-                <TableHead className="text-right font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Driver Name</TableHead>
-                 <TableHead className="text-right font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Shipment Number</TableHead>
+                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Driver Name</TableHead>
+                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Shipment Number</TableHead>
+                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" ></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -246,7 +247,7 @@ export default function Page() {
                     <TableCell className="font-medium">{call.toPhone}</TableCell>
                     <TableCell>{call.accountName}</TableCell>
                     <TableCell>{call.driverName}</TableCell>
-                    <TableCell>{call.shipmentNumber}</TableCell>
+                    <TableCell className='text-center' >{call.shipmentNumber}</TableCell>
                     <TableCell className="text-right">
                       <TooltipProvider>
                         <Tooltip>
