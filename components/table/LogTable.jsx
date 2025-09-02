@@ -219,14 +219,14 @@ export function LogTable({
       await deleteCall(callToDelete._id).unwrap()
       refetch()
       showSuccessToast(
-         'Deleted',{
+        'Deleted', {
         description: 'Call deleted successfully.',
       })
     } catch (err) {
-      showErrorToast('Error',{
-         description: err?.data?.message || 'Failed to delete call.',
+      showErrorToast('Error', {
+        description: err?.data?.message || 'Failed to delete call.',
       })
-     
+
     } finally {
       setDeleteDialogOpen(false);
       setCallToDelete(null);
@@ -273,7 +273,7 @@ export function LogTable({
                   <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">
                     Customer
                   </TableHead>
-                   <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">
+                  <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">
                     Duration
                   </TableHead>
                   <TableHead className='w-40 border-b border-gray-200 bg-secondaryBackground font-semibold text-textCustomDark'>
@@ -310,7 +310,7 @@ export function LogTable({
                     <TableRow
                       key={call._id || index}
                       className={`hover:bg-gray-50 transition-colors border-b border-gray-100 ${call.isClosed || call.maxAttemptsReached ? 'bg-red-50' : ''
-                      }`}
+                        }`}
                     >
                       <TableCell className="text-center align-top py-4">
                         {(() => {
@@ -360,32 +360,39 @@ export function LogTable({
                           {call?.location && <span className="text-xs text-gray-500">{call?.location}</span>}
                         </div>
                       </TableCell>
-                       <TableCell className="align-top py-4">
+                      <TableCell className="align-top py-4">
                         <span className="text-sm text-gray-700">
                           {call?.callDuration ? formatDuration(call?.callDuration) : '-'}
-                          </span>
-                          </TableCell>
+                        </span>
+                      </TableCell>
 
-                      <TableCell className='flex py-4 align-top justify-center'>
-                        {index === 0 && (
-                          <span className='text-sm text-gray-700'>-</span>
-                        )}
-                        {index === 1 && (
-                          <div className='flex w-fit items-center gap-2 rounded-md bg-[#835006] px-2 py-1 text-white'>
-                            <span className='flex h-4 w-4 items-center justify-center rounded-full bg-white'>
-                              <ReviewIcon />
-                            </span>
-                            <span className='text-sm'>Review</span>
-                          </div>
-                        )}
-                        {index === 2 && (
-                          <div className='flex w-fit items-center gap-2 rounded-md bg-[#00942B] px-2 py-1 text-white'>
-                            <span className='flex h-4 w-4 items-center justify-center rounded-full bg-white'>
-                              <VerifiedIcon />
-                            </span>
-                            <span className='text-sm'>Verified</span>
-                          </div>
-                        )}
+                      <TableCell className='flex justify-center py-4 align-top'>
+                        {(() => {
+                          const outcome = call?.outcome || 'pending'; // default to "pending"
+
+                          const outcomeConfig = {
+                            pending: (
+                              <span className='text-sm text-gray-700'>-</span>
+                            ),
+                            review: (
+                              <div className='flex w-fit items-center gap-2 rounded-md bg-[#835006] px-2 py-1 text-white'>
+                                <span className='flex h-4 w-4 items-center justify-center rounded-full bg-white'>
+                                  <ReviewIcon />
+                                </span>
+                                <span className='text-sm'>Review</span>
+                              </div>
+                            ),
+                            verified: (
+                              <div className='flex w-fit items-center gap-2 rounded-md bg-[#00942B] px-2 py-1 text-white'>
+                                <span className='flex h-4 w-4 items-center justify-center rounded-full bg-white'>
+                                  <VerifiedIcon />
+                                </span>
+                                <span className='text-sm'>Verified</span>
+                              </div>
+                            ),
+                          };
+                          return outcomeConfig[outcome];
+                        })()}
                       </TableCell>
 
                       <TableCell className='py-4 align-top'>
@@ -420,7 +427,7 @@ export function LogTable({
           </div>
         </div>
 
-  
+
         <div className="py-4 px-6 flex flex-col sm:flex-row justify-between items-center border-t border-gray-200 bg-gray-50 gap-4">
           <div className="text-sm text-gray-600">
             Showing <span className="font-medium">{data.length > 0 ? (page - 1) * perPage + 1 : 0}</span> to{' '}
