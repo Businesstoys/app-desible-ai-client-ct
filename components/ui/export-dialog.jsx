@@ -25,8 +25,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { useCallDataExportMutation } from '@/store';
-import { useToast } from '@/hooks/use-toast';
-import { showErrorToast, showSuccessToast } from './toast';
+import { showErrorToast } from './toast';
 
 const mkRange = (from, to) => ({ from, to });
 
@@ -34,7 +33,6 @@ export default function ExportDialog({ search, nin }) {
   const [open, setOpen] = useState(false);
   const [dateRange, setDateRange] = useState({ from: null, to: null });
   const [exportData, { isLoading: isExporting }] = useCallDataExportMutation();
-  const { toast } = useToast();
   const presets = useMemo(() => {
     const today = startOfToday();
     const endToday = endOfToday();

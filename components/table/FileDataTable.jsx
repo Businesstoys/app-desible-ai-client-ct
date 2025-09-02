@@ -12,13 +12,12 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-import { useToast } from "@/hooks/use-toast"
 import Checkbox from "../ui/checkbox"
 import { EditCallDialog } from "../ui/edit-call-popover"
 import { useRemoveCallMutation } from "@/store"
+import { showErrorToast, showSuccessToast } from "../ui/toast"
 
 export function FileDataTable({ data = [], selectedRows, setSelectedRows, refetch }) {
-    const { toast } = useToast()
     const [callDelete, { isLoading }] = useRemoveCallMutation()
 
     useEffect(() => {
@@ -42,25 +41,25 @@ export function FileDataTable({ data = [], selectedRows, setSelectedRows, refetc
 
     const handleSaveCall = () => {
         refetch()
-        toast({
-            title: "Success!",
-            description: "Call details updated successfully."
-        })
+        showSuccessToast("Success!",
+            { description: "Call details updated successfully." })
+
     }
 
     const handleOnClick = async (_id) => {
         try {
             await callDelete(_id).unwrap()
             refetch()
-            toast({
-                title: "Success!",
+            showSuccessToast("Success", {
+
                 description: "Call details deleted successfully."
             })
+
         } catch (error) {
-            toast({
-                title: "Failure",
+            showErrorToast("Failure", {
                 description: "Unable to delete the call. Please try again!"
             })
+
         }
     }
 

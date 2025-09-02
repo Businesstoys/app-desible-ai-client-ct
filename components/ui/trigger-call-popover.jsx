@@ -19,13 +19,12 @@ import {
 } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { useCallInitiateMutation } from "@/store";
+import { showErrorToast, showSuccessToast } from "./toast";
 
-import { useToast } from "@/hooks/use-toast";
 
 export default function TriggerCallDialog({ open, onOpenChange, data = [], selectedCall = [] }) {
   const [callInitiate, { isLoading }] = useCallInitiateMutation()
 
-  const { toast } = useToast();
   const router = useRouter();
 
   const [selectedTemplateId, setSelectedTemplateId] = useState("");
@@ -140,16 +139,12 @@ export default function TriggerCallDialog({ open, onOpenChange, data = [], selec
 
       await callInitiate(payload).unwrap();
       router.push('/queued-calls')
-      toast({
-        title: "Success!",
+      showSuccessToast('success',{
         description: "Calls initiated successfully.",
-        status: "success",
-      });
+      })
     } catch (error) {
-      toast({
-        title: "Uh oh! Something went wrong.",
+      showErrorToast("Uh oh! Something went wrong.",{
         description: error?.data?.message || "Please try again.",
-        status: "error",
       });
     }
   }

@@ -61,7 +61,47 @@ export function CallDetailsSheet({ open, onOpenChange, call }) {
           </SheetDescription>
         </SheetHeader>
 
-        <div className="mt-6 grid gap-6">
+        <div className='mt-6 grid gap-6'>
+          {/* Shipment Information */}
+
+          <section className='rounded-lg bg-white p-4 shadow-sm'>
+            <h3 className='text-md mb-3 border-b pb-2 font-semibold text-gray-700'>
+              Shipment Information
+            </h3>
+            <div className='grid grid-cols-2 gap-4'>
+              <div className='flex flex-col gap-1'>
+                <h4 className='text-sm font-medium text-gray-800'>
+                  Shipment Id:
+                </h4>
+                <p className='text-sm text-gray-500'>{call?.shipmentNumber}</p>
+              </div>
+              <div className='flex flex-col gap-1'>
+                <h4 className='text-sm font-medium text-gray-800'>
+                  Source:
+                </h4>
+                <p className='text-sm text-gray-500'>{call?.shipmentSource || 'New York'}</p>
+              </div>
+              <div className='flex flex-col gap-1'>
+                <h4 className='text-sm font-medium text-gray-800'>
+                  Destination:
+                </h4>
+                <p className='text-sm text-gray-500'>{call?.shipmentDestination || 'North Carolina'}</p>
+              </div>
+              <div className='flex flex-col gap-1'>
+                <h4 className='text-sm font-medium text-gray-800'>
+                  PickUp Date:
+                </h4>
+                <p className='text-sm text-gray-500'>{call?.shipmentPickUp || 'August 8, 2025'}</p>
+              </div>
+              <div className='flex flex-col gap-1'>
+                <h4 className='text-sm font-medium text-gray-800'>
+                  Delivery Date:
+                </h4>
+                <p className='text-sm text-gray-500'>{call?.deliveryDate || 'August 8, 2025'}</p>
+              </div>
+            </div>
+          </section>
+
           {/* Agent Information */}
           <section className="bg-white rounded-lg p-4 shadow-sm">
             <h3 className="text-md font-semibold text-gray-700 mb-3 border-b pb-2">Agent Information</h3>
