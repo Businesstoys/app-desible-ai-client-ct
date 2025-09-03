@@ -253,9 +253,9 @@ export function LogTable({
         <div className="overflow-auto"
           style={{ height: "calc(83vh - 70px)" }}
         >
-          <div className="max-h-[60vh] overflow-y-auto [scrollbar-width:none]">
+          <div className="overflow-y-auto [scrollbar-width:none]">
             <Table className="w-full">
-              <TableHeader className="sticky top-0 z-20">  {/* no bg here */}
+              <TableHeader className="sticky top-0 z-20">
                 <TableRow className="border-b border-gray-200">
                   <SortableHeader
                     field="effectiveDate"
