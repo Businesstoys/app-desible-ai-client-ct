@@ -17,15 +17,15 @@ export default function Home() {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [sortBy, setSortBy] = useState('effectiveDate');
-  const [sortOrder, setSortOrder] = useState('desc');
-  const [attempt, setAttempt] = useState('');
+  const [sortOrder, setSortOrder] = useState('desc')
   const [outcome, setOutcome] = useState('');
 
   const outcomesData = [
-    { label: 'All', value: 'All' },
+    { label: 'All', value: 'all' },
     { label: 'Verified', value: 'verified' },
     { label: 'Pending', value: 'pending' },
     { label: 'Review', value: 'review' },
+    { label: 'Rejected', value: 'Rejected' }
   ];
 
   const nin = 'pending,queued,deleted,schedule';
@@ -37,8 +37,7 @@ export default function Home() {
     nin,
     sortBy,
     sortOrder,
-    outcome,
-    ...(attempt && { attempt }),
+    outcome
   };
 
   const {

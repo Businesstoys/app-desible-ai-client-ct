@@ -396,6 +396,14 @@ export function LogTable({
                                 <span className='text-sm'>Verified</span>
                               </div>
                             ),
+                            Rejected: (
+                              <div className='flex w-fit items-center gap-2 rounded-md bg-red-500 px-2 py-1 text-white'>
+                                <span className='flex h-4 w-4 items-center justify-center rounded-full bg-white'>
+                                  <VerifiedIcon />
+                                </span>
+                                <span className='text-sm'>Rejected</span>
+                              </div>
+                            )
                           };
                           return outcomeConfig[outcome];
                         })()}

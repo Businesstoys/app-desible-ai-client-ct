@@ -38,8 +38,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import CallAttemptsChart from '@/components/chart/call-attempts-chart';
-import CallsReportChart from '@/components/chart/call-status-report-chart';
-import TimeHeatmap from '@/components/chart/call-hitmap';
+
 
 const fmt = (n) => numeral(n).format('0.[0]a');
 
@@ -117,80 +116,7 @@ export default function DashboardPage() {
   const { data: attemptData, isLoading: attemptLoading } =
     useGetCallAttemptsQuery(apiPayload);
 
-  const callStatusData = [
-    {
-      date: '25 Jul',
-      completed: 12,
-      failed: 5,
-      busy: 3,
-      'no-answer': 8,
-      'not-reachable': 2,
-    },
-    {
-      date: '26 Jul',
-      completed: 18,
-      failed: 2,
-      busy: 6,
-      'no-answer': 12,
-      'not-reachable': 5,
-    },
-    {
-      date: '27 Jul',
-      completed: 20,
-      failed: 3,
-      busy: 4,
-      'no-answer': 10,
-      'not-reachable': 1,
-    },
-    {
-      date: '28 Jul',
-      completed: 25,
-      failed: 7,
-      busy: 5,
-      'no-answer': 9,
-      'not-reachable': 4,
-    },
-    {
-      date: '29 Jul',
-      completed: 30,
-      failed: 4,
-      busy: 8,
-      'no-answer': 7,
-      'not-reachable': 6,
-    },
-    {
-      date: '30 Jul',
-      completed: 40,
-      failed: 10,
-      busy: 6,
-      'no-answer': 5,
-      'not-reachable': 3,
-    },
-    {
-      date: '01 Aug',
-      completed: 10,
-      failed: 5,
-      busy: 2,
-      'no-answer': 1,
-      'not-reachable': 0,
-    },
-    {
-      date: '01 Aug',
-      completed: 20,
-      failed: 2,
-      busy: 1,
-      'no-answer': 3,
-      'not-reachable': 1,
-    },
-    {
-      date: '02 Aug',
-      completed: 15,
-      failed: 4,
-      busy: 3,
-      'no-answer': 2,
-      'not-reachable': 0,
-    },
-  ];
+
 
   const colors = {
     completed: '#10B981',
@@ -203,7 +129,7 @@ export default function DashboardPage() {
   function aggregateByDate(data) {
     const aggregated = {};
 
-    data.forEach((item) => {
+    data?.forEach((item) => {
       const { date, ...rest } = item;
 
       if (!aggregated[date]) {
@@ -221,14 +147,12 @@ export default function DashboardPage() {
     return Object.values(aggregated);
   }
 
-  const statusData = aggregateByDate(callStatusData);
-  // Get keys except "date"
+  const statusData = aggregateByDate(statusResp?.data);
   const dataKeys =
     statusData.length > 0
       ? Object.keys(statusData[0]).filter((k) => k !== 'date')
       : [];
 
-  console.log(statusData);
 
   const defaultMetric = { value: 0, trend: '+0%', trendUp: true };
   const tc = kpiResponse?.data?.totalCalls ?? defaultMetric;
@@ -295,13 +219,13 @@ export default function DashboardPage() {
         trend: ad.trend,
         trendUp: ad.trendUp,
       },
-      {
-        label: 'Total Qualified Leads',
-        value: kpiLoading ? '–' : fmt(tq.value),
-        icon: <Users className='text-purple-500' size={20} />,
-        trend: tq.trend,
-        trendUp: tq.trendUp,
-      },
+      // {
+      //   label: 'Total Qualified Leads',
+      //   value: kpiLoading ? '–' : fmt(tq.value),
+      //   icon: <Users className='text-purple-500' size={20} />,
+      //   trend: tq.trend,
+      //   trendUp: tq.trendUp,
+      // },
       {
         label: 'Qualification Rate',
         value: kpiLoading ? '–' : `${fmt(qr.value)}%`,
@@ -321,7 +245,6 @@ export default function DashboardPage() {
   );
 
   const chartData = reportLoading ? [] : reportResp?.data || [];
-  //   const statusData = statusLoading ? [] : statusResp?.data || [];
 
   const CustomLineTooltip = ({ active, payload, label }) => {
     if (active && payload?.length) {
@@ -487,11 +410,7 @@ export default function DashboardPage() {
           data={attemptData?.data}
         />
 
-        {/* <TimeHeatmap /> */}
 
-        {/* Calls Report */}
-        {/* <CallsReportChart data={chartData} loading={reportLoading} /> */}
-        {/* Call Status Trend */}
         <Card className='border-0 shadow-md'>
           <CardHeader className='pb-2'>
             <CardTitle className='text-xl font-semibold text-gray-900'>

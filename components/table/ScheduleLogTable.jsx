@@ -265,7 +265,6 @@ export function ScheduleLogTable({
                                 <TableHead className="font-semibold text-textCustomDark w-48 bg-secondaryBackground border-b border-gray-200">
                                     Scheduled
                                 </TableHead>
-
                                 <TableHead className="font-semibold text-textCustomDark w-32 bg-secondaryBackground border-b border-gray-200">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -314,23 +313,10 @@ export function ScheduleLogTable({
                                         </TableCell>
 
                                         <TableCell className="align-top py-4">
-                                            <div className="flex flex-col">
-                                                {/* <span className="font-medium text-gray-900">{call?.studentName}</span> */}
-                                                {call?.location && (
-                                                    <span className="text-xs text-gray-500">{call?.location}</span>
-                                                )}
-                                                {call?.class && (
-                                                    <span className="text-xs text-gray-500">Class: {call?.class}</span>
-                                                )}
-                                            </div>
-                                        </TableCell>
-
-                                        <TableCell className="align-top py-4">
                                             {call.scheduledAt ? (
                                                 <div className="flex flex-col items-center">
                                                     <span className="text-blue-700">
                                                         {new Date(call.scheduledAt).toLocaleDateString("en-US", {
-                                                            timeZone: "Asia/Kolkata",
                                                             year: "numeric",
                                                             month: "short",
                                                             day: "numeric"
@@ -338,7 +324,6 @@ export function ScheduleLogTable({
                                                     </span>
                                                     <span className="text-blue-700">
                                                         {new Date(call.scheduledAt).toLocaleTimeString("en-US", {
-                                                            timeZone: "Asia/Kolkata",
                                                             hour: "numeric",
                                                             minute: "numeric",
                                                             hour12: true

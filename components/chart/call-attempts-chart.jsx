@@ -64,45 +64,6 @@ const ChartSkeleton = () => (
 export default function CallAttemptsChart({ data, loading = false }) {
   const [isLoading] = useState(loading);
 
-  // const chartData = data && data.length > 0 ? data : [];
-  const chartData = [
-    {
-      attempt: 1,
-      connected: 247,
-      connectedPercentage: 56.91,
-      notConnected: 187,
-      notConnectedPercentage: 43.09,
-      total: 434,
-    },
-    {
-      attempt: 2,
-      connected: 180,
-      connectedPercentage: 60.0,
-      notConnected: 120,
-      notConnectedPercentage: 40.0,
-      total: 300,
-    },
-    {
-      attempt: 3,
-      connected: 210,
-      connectedPercentage: 70.0,
-      notConnected: 90,
-      notConnectedPercentage: 30.0,
-      total: 300,
-    },
-  ];
-
-  console.log(chartData);
-
-  const totalAttempts = chartData?.reduce((sum, item) => sum + item.total, 0);
-  const totalConnected = chartData?.reduce(
-    (sum, item) => sum + item.connected,
-    0,
-  );
-  const overallSuccessRate = ((totalConnected / totalAttempts) * 100).toFixed(
-    1,
-  );
-
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
@@ -181,7 +142,7 @@ export default function CallAttemptsChart({ data, loading = false }) {
           </div>
         </CardTitle>
         <CardDescription className='text-muted-foreground/80'>
-          Call success rate analysis across {chartData?.length} connection
+          Call success rate analysis across {data?.length} connection
           attempts with detailed performance insights
         </CardDescription>
       </CardHeader>
@@ -191,7 +152,7 @@ export default function CallAttemptsChart({ data, loading = false }) {
             <ResponsiveContainer width='100%' aspect={3}>
               <BarChart
                 layout='vertical'
-                data={chartData}
+                data={data}
                 margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                 barCategoryGap='2%' // 🔥 CHANGED: Much lower percentage
                 barGap={2}
