@@ -58,7 +58,7 @@ export default function Home() {
         <h3 className="text-[#1F2328] text-2xl font-bold leading-none tracking-[-0.03em]">Logs</h3>
         <div className="flex flex-row gap-3">
           <Input
-            className="h-9"
+            className="h-9 w-72"
             placeholder="Search by name, phone or status..."
             value={search}
             onChange={(e) => {

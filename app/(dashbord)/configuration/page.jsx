@@ -8,16 +8,21 @@ export default function Configuration() {
   const { data: staticData } = useGetStaticsQuery();
   const [updateConfig, { isLoading: Loading }] = useUpdateConfigMutation();
 
-  const [phone, setPhone] = useState('2239847830');
+  const [phone, setPhone] = useState('+919039384177');
   const [voice, setVoice] = useState('en-US-LunaNeural');
   const [prompt, setPrompt] = useState('');
 
   useEffect(() => {
     if (staticData?.data) {
-      setPhone( staticData?.data?.selectedNumber || staticData.data.phoneNumbers[0].value);
-      setVoice(staticData?.data?.selectedVoice || staticData.data.voices[0].value); 
+      setPhone(
+        staticData?.data?.selectedNumber ||
+        '+919039384177'
+      );
+
+      setVoice(staticData?.data?.selectedVoice || staticData.data.voices[0].value);
 
       setPrompt(staticData?.data?.prompt || '');
+
     }
   }, [staticData?.data]);
 
@@ -38,15 +43,14 @@ export default function Configuration() {
       });
     }
   };
-
   return (
-    <div className='min-h-screen overflow-scroll bg-gray-50 px-6 py-10'>
-      <form className='mx-auto w-full space-y-8 p-4'>
+    <div className='min-h-screen overflow-scroll bg-gray-50 p-6'>
+      <form className='mx-auto w-full space-y-8'>
         <div className='flex items-center justify-between'>
-          <h2 className='text-3xl font-bold'>Configuration</h2>
+          <h2 className='text-2xl font-bold'>Configuration</h2>
           <button
             type='button'
-            className='rounded-md bg-primary px-6 py-2 font-semibold text-white shadow'
+            className='rounded-md text-sm bg-primary px-6 py-2 font-medium text-white shadow'
             onClick={handleClick}
           >
             Submit
@@ -56,17 +60,19 @@ export default function Configuration() {
           <div className='flex flex-col gap-4'>
             <div className='flex gap-4'>
               <DropdownSelect
-                label= 'Phone Number'
-                placeholder= 'Select Phone'
+                label="Phone Number"
+                placeholder="Select Phone"
                 value={phone}
+                 onChange={setPhone}
                 options={
-                    staticData?.data?.phoneNumbers?.map((phone)=>({
-                        label: phone,
-                        value: phone
-                    }))
+                  staticData?.data?.phoneNumbers?.map((p) => ({
+                    label: p,
+                    value: p,
+                  })) || []
+
                 }
-                onChange={setPhone}
               />
+
             </div>
             <div className='flex gap-4'>
               <DropdownSelect

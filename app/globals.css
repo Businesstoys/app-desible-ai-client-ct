@@ -123,9 +123,9 @@ input[type="checkbox"] {
 }
 
 .plyr--audio .plyr__control:hover{
-  background: #e6843f !important;
+  background: #00698F !important;
 }
 
 .plyr--full-ui input[type="range"]{
-  color: #e6843f !important;
+  color: #00698F !important;
 }

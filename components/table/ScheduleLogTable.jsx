@@ -278,8 +278,9 @@ export function ScheduleLogTable({
     return (
         <>
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <div className="overflow-x-auto min-h-[68vh] overflow-scroll [scrollbar-width:none]">
-                    <Table>
+                <div className="overflow-scroll [scrollbar-width:none]"
+                     style={{ height: "calc(80vh - 70px)" }} >
+                    <Table className='min-h-96'>
                         <TableHeader className="bg-gradient-to-r from-gray-50 to-gray-100">
                             <TableRow className="border-b border-gray-200">
                                 <SortableHeader

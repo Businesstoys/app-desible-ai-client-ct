@@ -184,9 +184,10 @@ export default function Page() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-md shadow-sm border border-gray-100 overflow-hidden">
-        <div className="overflow-x-auto min-h-[45vh] max-h-[52vh] overflow-scroll [scrollbar-width:none]">
-          <Table>
+      <div className="bg-white rounded-md shadow-sm border border-gray-100 overflow-hidden" >
+        <div className="overflow-scroll [scrollbar-width:none]"
+             style={{ height: "calc(80vh - 75px)" }} >
+          <Table className='min-h-96'>
             <TableHeader className="bg-gray-50">
               <TableRow>
                 <TableHead className=" w-12 font-semibold text-textCustomDark bg-secondaryBackground border-b border-gray-200">

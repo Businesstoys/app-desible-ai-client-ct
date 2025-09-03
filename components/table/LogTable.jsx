@@ -73,7 +73,7 @@ const getStatusIcon = (status) => {
       return <UserX className="w-4 h-4 text-yellow-600" />;
     case 'failed':
     case 'cancelled':
-      return <XCircle className="w-4 h-4 text-red-600" />;
+      return <XCircle className="w-4 h-4 text-red-500" />;
     default:
       return <Clock className="w-4 h-4 text-gray-600" />;
   }
@@ -97,8 +97,8 @@ const getStatusBadge = (call) => {
   }
 
   const statusConfig = {
-    completed: { variant: "default", className: "bg-green-100 text-green-700 hover:bg-green-100" },
-    'in-progress': { variant: "default", className: "bg-blue-100 text-blue-700 hover:bg-blue-100" },
+    completed: { variant: "default", className: "bg-green-100 text-sm text-green-600 hover:bg-green-100" },
+    'in-progress': { variant: "default", className: "bg-blue-100 text-sm text-blue-500 hover:bg-blue-100" },
     ringing: { variant: "default", className: "bg-blue-100 text-blue-700 hover:bg-blue-100" },
     schedule: { variant: "default", className: "bg-purple-100 text-purple-700 hover:bg-purple-100" },
     queued: { variant: "default", className: "bg-gray-100 text-gray-700 hover:bg-gray-100" },
@@ -106,7 +106,7 @@ const getStatusBadge = (call) => {
     busy: { variant: "default", className: "bg-yellow-100 text-yellow-700 hover:bg-yellow-100" },
     'not-reachable': { variant: "default", className: "bg-yellow-100 text-yellow-700 hover:bg-yellow-100" },
     'no-answer': { variant: "default", className: "bg-yellow-100 text-yellow-700 hover:bg-yellow-100" },
-    failed: { variant: "destructive", className: "" },
+    failed: { variant: "destructive", className: "text-sm bg-[#FFDEDE] text-red-500 hover:bg-[#FFDEDE]" },
     cancelled: { variant: "destructive", className: "" },
     'hang-up': { variant: "destructive", className: "" },
   };
@@ -251,8 +251,10 @@ export function LogTable({
   return (
     <>
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex flex-col">
-        <div className="overflow-x-auto">
-          <div className="max-h-[67vh] overflow-y-auto [scrollbar-width:none]">
+        <div className="overflow-auto"
+          style={{ height: "calc(83vh - 70px)" }}
+        >
+          <div className="max-h-[60vh] overflow-y-auto [scrollbar-width:none]">
             <Table className="w-full">
               <TableHeader className="sticky top-0 z-20">  {/* no bg here */}
                 <TableRow className="border-b border-gray-200">
