@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from "react"
-import { ChevronLeft, ChevronRight, Info, RefreshCcw, Trash, Pause, Play } from "lucide-react"
+import { ChevronLeft, ChevronRight, RefreshCcw, Trash, Pause, Play } from "lucide-react"
 
 import {
   Table,
@@ -31,7 +31,6 @@ import { showErrorToast, showSuccessToast } from "@/components/ui/toast"
 export default function Page() {
   const [page, setPage] = useState(1)
   const [perPage, setPerPage] = useState(10)
-  const [showInfoAlert, setShowInfoAlert] = useState(true)
   const [selectedRows, setSelectedRows] = useState([])
 
   // Call queue status hooks
@@ -70,7 +69,6 @@ export default function Page() {
     }
   }, [isUpdateSuccess, refetch])
 
-  // Refetch queue status after starting/stopping queue
   const handleQueueStatusChange = async (actionFn, successMsg) => {
     try {
       await actionFn().unwrap()
@@ -108,11 +106,11 @@ export default function Page() {
       })
     } catch (err) {
       showErrorToast('Error', {
-        description: 'Failed to update call status.'})
+        description: 'Failed to update call status.'
+      })
     }
   }
 
-  // Button state
   const isQueueRunning = queueStatusData?.isQueueRunning
 
   return (
@@ -204,8 +202,9 @@ export default function Page() {
                 </TableHead>
                 <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">To Phone</TableHead>
                 <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Account Name</TableHead>
-                <TableHead className="text-right font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Driver Name</TableHead>
-                <TableHead className="text-right font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Shipment Number</TableHead>
+                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Driver Name</TableHead>
+                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Shipment Number</TableHead>
+                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" ></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

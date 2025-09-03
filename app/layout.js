@@ -1,10 +1,8 @@
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "@/store/StoreProvider";
-import { Toaster } from "sonner";
 import { ToastProvider } from "@/components/ui/toast";
 import TopLoader from "@/components/ui/top-loader";
-// import { Toaster } from "@/components/ui/toaster";
 
 const dmSans = DM_Sans({
   weight: ['400','500','600','700'],
@@ -25,13 +23,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${dmSans.className}`}>
-        {/* <Toaster /> */}
         <ToastProvider />
         <StoreProvider>
           <TopLoader />
           {children}
         </StoreProvider>
-        {/* { process.env.DEPLOY_ENV === 'prod' && <Clarity />} */}
       </body>
     </html>
   );
