@@ -83,12 +83,6 @@ const callApi = api.injectEndpoints({
                 method: 'POST',
                 body: data
             })
-        }),
-        deleteCall: build.mutation({
-            query: (_id) => ({
-                url: `/call/delete/${_id}`,
-                method: 'GET'
-            })
         })
     }),
     overrideExisting: true
@@ -101,7 +95,6 @@ export const {
     useCallDataExportMutation,
     usePendingCallQuery,
     useUdpateCallMutation,
-    useDeleteCallMutation,
     useCallkpiQuery,
     useCallListQuery,
     useUpdateCallStatusMutation,

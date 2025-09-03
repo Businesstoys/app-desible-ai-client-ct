@@ -48,7 +48,7 @@ import {
 } from "@/components/ui/dialog"
 
 import { ONGOING_CALL_STATUSES } from "@/constants";
-import { useDeleteCallMutation, useHandUpCallMutation } from "@/store";
+import { useRemoveCallsMutation } from "@/store";
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { formatDateTime } from "@/utils";
@@ -199,7 +199,7 @@ export function LogTable({
   const [scheduleHistoryOpen, setScheduleHistoryOpen] = useState(false);
   const [selectedCallHistory, setSelectedCallHistory] = useState(null);
 
-  const [deleteCall, { isLoading }] = useDeleteCallMutation()
+  const [removeCall, { isLoading }] = useRemoveCallsMutation()
 
   const handleMoreOptionsClick = (call) => {
     setCallData(call);
@@ -214,9 +214,8 @@ export function LogTable({
 
   const handleDeleteConfirm = async () => {
     if (!callToDelete || isLoading) return;
-
     try {
-      await deleteCall(callToDelete._id).unwrap()
+      await removeCall({ id:[callToDelete._id] }).unwrap()
       refetch()
       showSuccessToast(
         'Deleted', {
@@ -617,14 +616,8 @@ export function LogTable({
                     </div>
                     <div>
                       <span className="font-medium text-gray-700">Attempts:</span>
-                      <div className="text-gray-900">{callToDelete.callAttempt}/15</div>
+                      <div className="text-gray-900">{callToDelete.callAttempt}/4</div>
                     </div>
-                    {callToDelete.callDuration && (
-                      <div className="col-span-2">
-                        <span className="font-medium text-gray-700">Duration:</span>
-                        <div className="text-gray-900">{callToDelete.callDuration}</div>
-                      </div>
-                    )}
                   </div>
                 </div>
               )}

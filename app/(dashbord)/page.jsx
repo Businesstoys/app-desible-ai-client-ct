@@ -1,9 +1,10 @@
 // Home.tsx
 'use client';
 import { useState } from 'react'
-import { format } from 'date-fns'
 import { RefreshCcw } from 'lucide-react'
-import { useCallListQuery, useCallDataExportMutation } from '@/store/api/callApi'
+
+import { useCallListQuery } from '@/store/api/callApi'
+
 import ExportDialog from '@/components/ui/export-dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,7 +16,6 @@ export default function Home() {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const [dateRange, setDateRange] = useState({ from: null, to: null });
   const [sortBy, setSortBy] = useState('effectiveDate');
   const [sortOrder, setSortOrder] = useState('desc');
   const [attempt, setAttempt] = useState('');

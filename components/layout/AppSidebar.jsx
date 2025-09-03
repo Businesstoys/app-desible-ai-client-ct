@@ -2,7 +2,7 @@
 
 import React from "react"
 import { useSelector } from "react-redux"
-import { Clock, LayoutDashboard, LogsIcon, History, Settings } from "lucide-react"
+import { Clock, LayoutDashboard, LogsIcon, History, Settings, TruckIcon } from "lucide-react"
 
 import {
   Sidebar,
@@ -27,7 +27,7 @@ const data = {
     { name: "Queued Calls", url: "/queued-calls", icon: Clock },
     { name: "Schedule Calls", url: "/schedule-calls", icon: History },
     { name: "Configuration", url: "/configuration", icon: Settings },
-    { name: "Shipment", url: "/shipment", icon: Settings },
+    { name: "Shipment", url: "/shipment", icon: TruckIcon },
   ],
 }
 

@@ -25,7 +25,6 @@ export {
   useCallInitiateMutation,
   useUploadMutation,
   useUdpateCallMutation,
-  useDeleteCallMutation,
   useCallkpiQuery,
   useCallListQuery,
   useUpdateCallStatusMutation,

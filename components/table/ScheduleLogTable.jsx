@@ -3,7 +3,6 @@ import { useState } from "react";
 import {
     ChevronLeft,
     ChevronRight,
-    PhoneOff,
     Trash,
     Calendar,
     Clock,
@@ -12,7 +11,6 @@ import {
     Phone,
     UserX,
     Repeat,
-    History,
     ArrowUpDown,
     ArrowDown,
     ArrowUp
@@ -27,8 +25,8 @@ import {
     TableRow
 } from "@/components/ui/table"
 
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import {
     AlertDialog,
     AlertDialogAction,
@@ -40,25 +38,22 @@ import {
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 
-import { ONGOING_CALL_STATUSES } from "@/constants";
-import { useDeleteCallMutation, useHandUpCallMutation } from "@/store";
+import { ONGOING_CALL_STATUSES } from "@/constants"
+import { useRemoveCallsMutation } from "@/store"
 
-import { CallDetailsSheet } from "../call-details-sheet";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
-import { showErrorToast, showSuccessToast } from "../ui/toast";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip"
+import { showErrorToast, showSuccessToast } from "../ui/toast"
 
-export function formatIndiaDateTime(isoString) {
+export function FormatedDateTime(isoString) {
     const date = new Date(isoString);
 
     const datePart = date.toLocaleDateString("en-US", {
-        timeZone: "Asia/Kolkata",
         month: "short",
         day: "numeric",
         year: "numeric",
     });
 
     const timePart = date.toLocaleTimeString("en-US", {
-        timeZone: "Asia/Kolkata",
         hour: "numeric",
         minute: "numeric",
         hour12: true,
@@ -203,37 +198,12 @@ export function ScheduleLogTable({
     sortOrder,
     setSortBy,
     setSortOrder,
+    isLoading
 }) {
-    const [isSheetOpen, setIsSheetOpen] = useState(false);
-    const [callData, setCallData] = useState({});
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [callToDelete, setCallToDelete] = useState(null);
-    const [scheduleHistoryOpen, setScheduleHistoryOpen] = useState(false);
-    const [selectedCallHistory, setSelectedCallHistory] = useState(null);
-    const [onHangUpCall, { isLoading }] = useHandUpCallMutation()
-    const [deleteCall, { isLoading: isDeleteLoading }] = useDeleteCallMutation()
+    const [deleteCall, { isLoading: isDeleteLoading }] = useRemoveCallsMutation()
 
-
-    const handleMoreOptionsClick = (call) => {
-        setCallData(call);
-        setIsSheetOpen(true);
-    };
-
-    const handleHangUpClick = async (callId) => {
-        try {
-            await onHangUpCall(callId).unwrap()
-            refetch()
-            showSuccessToast("Call HangUp", {
-                description: `Call hung up successfully`,
-            })
-
-        } catch (error) {
-            showErrorToast('Error', {
-                description: 'Failed to hang up call.',
-            })
-
-        }
-    }
 
     const handleDeleteClick = (call) => {
         setCallToDelete(call);
@@ -242,9 +212,8 @@ export function ScheduleLogTable({
 
     const handleDeleteConfirm = async () => {
         if (!callToDelete || isDeleteLoading) return;
-
         try {
-            await deleteCall(callToDelete._id).unwrap()
+            await deleteCall({ id: [callToDelete._id] }).unwrap()
             refetch()
             showSuccessToast('Deleted', {
                 description: 'Call deleted successfully.',
@@ -264,7 +233,7 @@ export function ScheduleLogTable({
     const handleDeleteCancel = () => {
         setDeleteDialogOpen(false);
         setCallToDelete(null);
-    };
+    }
 
     const handleSortClick = (field) => {
         if (sortBy === field) {
@@ -279,7 +248,7 @@ export function ScheduleLogTable({
         <>
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                 <div className="overflow-scroll [scrollbar-width:none]"
-                     style={{ height: "calc(80vh - 70px)" }} >
+                    style={{ height: "calc(80vh - 70px)" }} >
                     <Table className='min-h-96'>
                         <TableHeader className="bg-gradient-to-r from-gray-50 to-gray-100">
                             <TableRow className="border-b border-gray-200">
@@ -290,13 +259,9 @@ export function ScheduleLogTable({
                                     sortOrder={sortOrder}
                                     onSort={handleSortClick}
                                     className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200 text-left"
-                                // className="text-left"
                                 />
                                 <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Status</TableHead>
                                 <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Phone</TableHead>
-                                {/* <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Student</TableHead> */}
-
-                                {/* Removed duration, added Scheduled For column */}
                                 <TableHead className="font-semibold text-textCustomDark w-48 bg-secondaryBackground border-b border-gray-200">
                                     Scheduled
                                 </TableHead>
@@ -332,7 +297,7 @@ export function ScheduleLogTable({
                                             }`}
                                     >
                                         <TableCell className="text-center align-top py-4">
-                                            {formatIndiaDateTime(call.createdOn)}
+                                            {FormatedDateTime(call.createdOn)}
                                         </TableCell>
 
                                         <TableCell className="align-top py-4">
@@ -387,7 +352,6 @@ export function ScheduleLogTable({
 
                                         <TableCell className="align-top py-4">
                                             <div className="flex items-center justify-center gap-2">
-                                                {/* Delete Button */}
                                                 {!ONGOING_CALL_STATUSES.includes(call?.callStatus) && (
                                                     <Button
                                                         variant="ghost"
@@ -396,32 +360,6 @@ export function ScheduleLogTable({
                                                         className="text-red-500 hover:text-red-700 hover:bg-red-50 h-8 w-8 p-0"
                                                     >
                                                         <Trash className="w-4 h-4" />
-                                                    </Button>
-                                                )}
-
-                                                {/* View Button for Completed Calls */}
-                                                {call.callStatus === 'completed' && (
-                                                    <Button
-                                                        variant="outline"
-                                                        size="sm"
-                                                        onClick={() => handleMoreOptionsClick(call)}
-                                                        className="h-8 px-3 text-xs"
-                                                    >
-                                                        View Details
-                                                    </Button>
-                                                )}
-
-                                                {/* Hang Up Button for Ongoing Calls */}
-                                                {ONGOING_CALL_STATUSES.includes(call.callStatus) && (
-                                                    <Button
-                                                        variant="destructive"
-                                                        size="sm"
-                                                        onClick={() => handleHangUpClick(call._id)}
-                                                        disabled={isLoading}
-                                                        className="h-8 px-3 text-xs gap-1"
-                                                    >
-                                                        <PhoneOff className="w-3 h-3" />
-                                                        Hang Up
                                                     </Button>
                                                 )}
                                             </div>
@@ -483,7 +421,7 @@ export function ScheduleLogTable({
                     </div>
                 </div>
             </div>
-            {/* Enhanced Delete Dialog */}
+
             <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
                 <AlertDialogContent className="sm:max-w-[500px]">
                     <AlertDialogHeader>
@@ -510,14 +448,8 @@ export function ScheduleLogTable({
                                         </div>
                                         <div>
                                             <span className="font-medium text-gray-700">Attempts:</span>
-                                            <div className="text-gray-900">{callToDelete.callAttempt}/15</div>
+                                            <div className="text-gray-900">{callToDelete.callAttempt}/4</div>
                                         </div>
-                                        {callToDelete.callDuration && (
-                                            <div className="col-span-2">
-                                                <span className="font-medium text-gray-700">Duration:</span>
-                                                <div className="text-gray-900">{callToDelete.callDuration}</div>
-                                            </div>
-                                        )}
                                     </div>
                                 </div>
                             )}
@@ -547,7 +479,6 @@ export function ScheduleLogTable({
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
-            <CallDetailsSheet callData={callData} open={isSheetOpen} onOpenChange={setIsSheetOpen} />
         </>
     );
 }

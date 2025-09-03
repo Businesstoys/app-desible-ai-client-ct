@@ -48,7 +48,7 @@ export function FileDataTable({ data = [], selectedRows, setSelectedRows, refetc
 
     const handleOnClick = async (_id) => {
         try {
-            await callDelete([_id]).unwrap()
+            await callDelete({id: [_id]}).unwrap()
             refetch()
             showSuccessToast("Success", {
                 description: "Call details deleted successfully."
