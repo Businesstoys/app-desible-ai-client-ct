@@ -30,7 +30,7 @@ const baseQueryWithAuth = async (args, api, extraOptions) => {
       !result?.meta?.request?.url.includes('/login') &&
       !result?.meta?.request?.url.includes('/signup')
     ) {
-      // window.location.href = '/lo`gin'
+      window.location.href = '/login'
     }
   }
   return result

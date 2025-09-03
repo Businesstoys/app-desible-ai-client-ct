@@ -43,10 +43,11 @@ const callApi = api.injectEndpoints({
                 body: _data
             })
         }),
-        removeCall: build.mutation({
-            query: (_id) => ({
-                url: `/call/remove/${_id}`,
-                method: 'GET'
+        removeCalls: build.mutation({
+            query: (_data) => ({
+                url: `/call/remove`,
+                method: 'POST',
+                body: _data
             })
         }),
         callkpi: build.query({
@@ -102,11 +103,9 @@ export const {
     useUdpateCallMutation,
     useDeleteCallMutation,
     useCallkpiQuery,
-    useCallReportQuery,
     useCallListQuery,
-    useCallStatusReportQuery,
     useUpdateCallStatusMutation,
     useHandUpCallMutation,
     useCallFeedbackMutation,
-    useRemoveCallMutation
+    useRemoveCallsMutation
 } = callApi

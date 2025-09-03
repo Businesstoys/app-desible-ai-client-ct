@@ -24,7 +24,7 @@ export default function Page() {
     isLoading,
     refetch,
   } = useCallListQuery(queryParams);
-  const meta = data.meta;
+  const meta = data.meta
 
   const totalPages = Math.ceil(meta.total / perPage);
   return (

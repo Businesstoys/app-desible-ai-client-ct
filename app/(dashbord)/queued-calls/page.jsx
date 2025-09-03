@@ -12,11 +12,11 @@ import {
 } from "@/components/ui/table"
 
 import {
-  useUpdateCallStatusMutation,
   useCallListQuery,
   useGetQueueStatusQuery,
   useStartQueueMutation,
-  useStopQueueMutation
+  useStopQueueMutation,
+  useRemoveCallsMutation
 } from "@/store"
 
 import { Button } from "@/components/ui/button"
@@ -50,7 +50,7 @@ export default function Page() {
       }
     )
 
-  const [updateStatus, { isSuccess: isUpdateSuccess }] = useUpdateCallStatusMutation()
+  const [deleletCalls, { isSuccess: isUpdateSuccess }] = useRemoveCallsMutation()
   const totalRecords = data.meta.total
   const totalPages = Math.ceil(totalRecords / perPage)
 
@@ -100,9 +100,9 @@ export default function Page() {
 
   const handleUpdateCallStatus = async (ids) => {
     try {
-      await updateStatus({ ids, status: 'pending' }).unwrap()
+      await deleletCalls({ id:ids}).unwrap()
       showSuccessToast("Updated", {
-        description: `${ids.length} call(s) moved to pending status.`,
+        description: `${ids.length} call(s) deleted.`,
       })
     } catch (err) {
       showErrorToast('Error', {
@@ -138,7 +138,7 @@ export default function Page() {
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Removes calls from queue and moves them to pending status</p>
+                <p>Removes calls from queue</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -204,7 +204,6 @@ export default function Page() {
                 <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Account Name</TableHead>
                 <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Driver Name</TableHead>
                 <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Shipment Number</TableHead>
-                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" ></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -238,25 +237,6 @@ export default function Page() {
                     <TableCell>{call.accountName}</TableCell>
                     <TableCell>{call.driverName}</TableCell>
                     <TableCell className='text-center' >{call.shipmentNumber}</TableCell>
-                    <TableCell className="text-right">
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleUpdateCallStatus([call._id])}
-                              className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                            >
-                              <Trash size={16} className="mr-1" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Remove from queue and move to pending</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </TableCell>
                   </TableRow>
                 ))
               )}

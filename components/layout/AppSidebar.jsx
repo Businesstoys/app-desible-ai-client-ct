@@ -26,7 +26,7 @@ const data = {
     { name: "Logs", url: "/", icon: LogsIcon },
     { name: "Queued Calls", url: "/queued-calls", icon: Clock },
     { name: "Schedule Calls", url: "/schedule-calls", icon: History },
-     { name: "Configuration", url: "/configuration", icon: Settings },
+    { name: "Configuration", url: "/configuration", icon: Settings },
   ],
 }
 

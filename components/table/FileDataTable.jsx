@@ -14,11 +14,11 @@ import {
 
 import Checkbox from "../ui/checkbox"
 import { EditCallDialog } from "../ui/edit-call-popover"
-import { useRemoveCallMutation } from "@/store"
+import { useRemoveCallsMutation } from "@/store"
 import { showErrorToast, showSuccessToast } from "../ui/toast"
 
 export function FileDataTable({ data = [], selectedRows, setSelectedRows, refetch }) {
-    const [callDelete, { isLoading }] = useRemoveCallMutation()
+    const [callDelete, { isLoading }] = useRemoveCallsMutation()
 
     useEffect(() => {
         setSelectedRows(data.map(call => call._id))
@@ -48,10 +48,9 @@ export function FileDataTable({ data = [], selectedRows, setSelectedRows, refetc
 
     const handleOnClick = async (_id) => {
         try {
-            await callDelete(_id).unwrap()
+            await callDelete([_id]).unwrap()
             refetch()
             showSuccessToast("Success", {
-
                 description: "Call details deleted successfully."
             })
 

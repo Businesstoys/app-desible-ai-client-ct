@@ -14,6 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -27,7 +28,6 @@ export function NavUser({ user }) {
   const { isMobile, state } = useSidebar()
   const router = useRouter()
 
-  // Create initials from user name for avatar fallback
   const initials = user?.name
     ? user.name.split(' ').map(n => n[0]).join('').toUpperCase()
     : 'U'
@@ -60,8 +60,8 @@ export function NavUser({ user }) {
 
               {state === 'expanded' && (
                 <div className="grid flex-1 gap-0.5 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">{'Omkar R'}</span>
-                  <span className="truncate text-xs text-gray-500">{'omkar.r@vitrin9.com'}</span>
+                  <span className="truncate font-semibold">{user.name}</span>
+                  <span className="truncate text-xs text-gray-500">{user.email}</span>
                 </div>
               )}
 
@@ -84,18 +84,12 @@ export function NavUser({ user }) {
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 gap-0.5 text-left leading-tight">
-                  <span className="font-semibold text-gray-900">{'Omkar R'}</span>
-                  <span className="text-sm text-gray-500">{'omkar.r@vitrin9.com'}</span>
+                  <span className="font-semibold text-gray-900">{user?.name}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
 
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="flex items-center gap-2 py-2.5 hover:bg-gray-50">
-              <User className="size-4 text-gray-500" />
-              <span>Profile</span>
-            </DropdownMenuItem>
-
             <DropdownMenuItem
               onClick={handleOnClickLogout}
               className="flex items-center gap-2 py-2.5 text-red-600 hover:bg-red-50 hover:text-red-700"
