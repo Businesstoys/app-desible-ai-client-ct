@@ -368,13 +368,18 @@ export function LogTable({
 
                       <TableCell className='flex justify-center py-4 align-top'>
                         {(() => {
-                          const outcome = call?.outcome || 'pending'; // default to "pending"
+                          const outcome = call?.outcome || 'pending'
 
                           const outcomeConfig = {
                             pending: (
-                              <span className='text-sm text-gray-700'>-</span>
+                              <div className='flex w-fit items-center gap-2 rounded-md bg-[#7e6c51] px-2 py-1 text-white'>
+                                <span className='flex h-4 w-4 items-center justify-center rounded-full bg-white'>
+                                  <ReviewIcon />
+                                </span>
+                                <span className='text-sm'>Pending</span>
+                              </div>
                             ),
-                            review: (
+                            Review: (
                               <div className='flex w-fit items-center gap-2 rounded-md bg-[#835006] px-2 py-1 text-white'>
                                 <span className='flex h-4 w-4 items-center justify-center rounded-full bg-white'>
                                   <ReviewIcon />
@@ -382,7 +387,7 @@ export function LogTable({
                                 <span className='text-sm'>Review</span>
                               </div>
                             ),
-                            verified: (
+                            Verified: (
                               <div className='flex w-fit items-center gap-2 rounded-md bg-[#00942B] px-2 py-1 text-white'>
                                 <span className='flex h-4 w-4 items-center justify-center rounded-full bg-white'>
                                   <VerifiedIcon />

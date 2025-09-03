@@ -38,12 +38,6 @@ const getVoiceLanguage = (voiceLabel) => {
   return voiceLabel.split("|")[1].trim();
 }
 
-const getCallStatusBadge = (status) => {
-  if (!status) return null;
-  return ;
-};
-
-// ----- component -----
 export function CallDetailsSheet({ open, onOpenChange, call }) {
   const voiceInfo = call?.voiceName;
   const voiceLanguage = getVoiceLanguage(voiceInfo);
@@ -62,8 +56,6 @@ export function CallDetailsSheet({ open, onOpenChange, call }) {
         </SheetHeader>
 
         <div className='mt-6 grid gap-6'>
-          {/* Shipment Information */}
-
           <section className='rounded-lg bg-white p-4 shadow-sm'>
             <h3 className='text-md mb-3 border-b pb-2 font-semibold text-gray-700'>
               Shipment Information
@@ -79,57 +71,35 @@ export function CallDetailsSheet({ open, onOpenChange, call }) {
                 <h4 className='text-sm font-medium text-gray-800'>
                   Source:
                 </h4>
-                <p className='text-sm text-gray-500'>{call?.shipmentSource || 'New York'}</p>
+                <p className='text-sm text-gray-500'>{call?.originCity}</p>
               </div>
               <div className='flex flex-col gap-1'>
                 <h4 className='text-sm font-medium text-gray-800'>
                   Destination:
                 </h4>
-                <p className='text-sm text-gray-500'>{call?.shipmentDestination || 'North Carolina'}</p>
+                <p className='text-sm text-gray-500'>{call?.destinationCity}</p>
               </div>
               <div className='flex flex-col gap-1'>
                 <h4 className='text-sm font-medium text-gray-800'>
                   PickUp Date:
                 </h4>
-                <p className='text-sm text-gray-500'>{call?.shipmentPickUp || 'August 8, 2025'}</p>
+                <p className="text-sm text-gray-500">
+                  {call?.pickupDate ? new Date(call.pickupDate).toLocaleDateString("en-US") : ""}
+                </p>
               </div>
               <div className='flex flex-col gap-1'>
                 <h4 className='text-sm font-medium text-gray-800'>
                   Delivery Date:
                 </h4>
-                <p className='text-sm text-gray-500'>{call?.deliveryDate || 'August 8, 2025'}</p>
+                <p className="text-sm text-gray-500">
+                  {call?.delivaryDate ? new Date(call.delivaryDate).toLocaleDateString("en-US") : ""}
+                </p>
               </div>
             </div>
           </section>
 
           {/* Agent Information */}
-          <section className="bg-white rounded-lg p-4 shadow-sm">
-            <h3 className="text-md font-semibold text-gray-700 mb-3 border-b pb-2">Agent Information</h3>
-            <div className="flex items-center gap-4">
-              <div className="bg-blue-100 p-2 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div>
-                <h4 className="text-sm font-medium text-gray-800">{call?.agentName || "N/A"}</h4>
-                <p className="text-xs text-gray-500">Agent</p>
-              </div>
-            </div>
-
-            {/* Voice Information */}
-            <div className="mt-4 flex items-center gap-4">
-              <div className="bg-green-100 p-2 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-600" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div>
-                <h4 className="text-sm font-medium text-gray-800">{voiceInfo || "—"}</h4>
-                {voiceLanguage && <p className="text-xs text-gray-500">Language: {voiceLanguage}</p>}
-              </div>
-            </div>
-          </section>
+        
 
           {/* Call Summary */}
           <section className="bg-white rounded-lg p-4 shadow-sm">

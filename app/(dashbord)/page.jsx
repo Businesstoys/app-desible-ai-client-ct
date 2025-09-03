@@ -22,6 +22,7 @@ export default function Home() {
   const [outcome, setOutcome] = useState('');
 
   const outcomesData = [
+    { label: 'All', value: 'All' },
     { label: 'Verified', value: 'verified' },
     { label: 'Pending', value: 'pending' },
     { label: 'Review', value: 'review' },
@@ -36,6 +37,7 @@ export default function Home() {
     nin,
     sortBy,
     sortOrder,
+    outcome,
     ...(attempt && { attempt }),
   };
 

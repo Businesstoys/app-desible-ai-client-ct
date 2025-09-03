@@ -293,7 +293,7 @@ export function ScheduleLogTable({
                                 />
                                 <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Status</TableHead>
                                 <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Phone</TableHead>
-                                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Student</TableHead>
+                                {/* <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Student</TableHead> */}
 
                                 {/* Removed duration, added Scheduled For column */}
                                 <TableHead className="font-semibold text-textCustomDark w-48 bg-secondaryBackground border-b border-gray-200">
@@ -349,7 +349,7 @@ export function ScheduleLogTable({
 
                                         <TableCell className="align-top py-4">
                                             <div className="flex flex-col">
-                                                <span className="font-medium text-gray-900">{call?.studentName}</span>
+                                                {/* <span className="font-medium text-gray-900">{call?.studentName}</span> */}
                                                 {call?.location && (
                                                     <span className="text-xs text-gray-500">{call?.location}</span>
                                                 )}
