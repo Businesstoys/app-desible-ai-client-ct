@@ -81,7 +81,7 @@ export default function TrackOrderForm() {
                             name="toPhone"
                             value={formData.toPhone}
                             onChange={handleChange}
-                            placeholder="+919876543210"
+                            placeholder="+1234567890"
                             className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-primary focus:outline-none"
                         />
                     </div>
