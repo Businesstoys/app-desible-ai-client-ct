@@ -42,8 +42,12 @@ export default function TrackOrderForm() {
         try {
             const payload = {
                 ...formData,
-                pickupDate: formData.pickupDate?.toISOString(),
-                deliveryDate: formData.deliveryDate?.toISOString(),
+                pickupDate: formData.pickupDate
+                    ? format(formData.pickupDate, "yyyy-MM-dd'T'HH:mm:ss")
+                    : null,
+                deliveryDate: formData.deliveryDate
+                    ? format(formData.deliveryDate, "yyyy-MM-dd'T'HH:mm:ss")
+                    : null,
             };
 
             await trackShipment(payload).unwrap();
@@ -58,16 +62,16 @@ export default function TrackOrderForm() {
 
     return (
         <div className="flex flex-col gap-4 min-h-[90vh] bg-gray-50 p-6">
-             <h2 className="text-2xl font-bold text-gray-800 ">
-                    Track Order
-                </h2>
+            <h2 className="text-2xl font-bold text-gray-800 ">
+                Track Order
+            </h2>
             <form
                 onSubmit={handleSubmit}
                 className="w-full bg-white shadow-sm rounded-2xl p-6 space-y-6"
             >
-               
+
                 <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
-                  
+
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                             To Phone
@@ -149,7 +153,7 @@ export default function TrackOrderForm() {
                                 >
                                     <CalendarIcon className="mr-2 h-4 w-4" />
                                     {formData.pickupDate
-                                        ? format(formData.pickupDate, "dd MMM yyyy")
+                                        ? format(formData.pickupDate, "yyyy-MM-dd'T'HH:mm:ss")
                                         : "Select date"}
                                 </Button>
                             </PopoverTrigger>
