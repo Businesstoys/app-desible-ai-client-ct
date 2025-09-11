@@ -372,7 +372,7 @@ export function LogTable({
                           const outcome = call?.outcome || 'pending'
 
                           const outcomeConfig = {
-                            pending: (
+                            Pending: (
                               <div className='flex w-fit items-center gap-2 rounded-md bg-[#7e6c51] px-2 py-1 text-white'>
                                 <span className='flex h-4 w-4 items-center justify-center rounded-full bg-white'>
                                   <ReviewIcon />
@@ -399,7 +399,7 @@ export function LogTable({
                             Rejected: (
                               <div className='flex w-fit items-center gap-2 rounded-md bg-red-500 px-2 py-1 text-white'>
                                 <span className='flex h-4 w-4 items-center justify-center rounded-full bg-white'>
-                                  <VerifiedIcon />
+                                  <ReviewIcon />
                                 </span>
                                 <span className='text-sm'>Rejected</span>
                               </div>
@@ -655,7 +655,7 @@ export function LogTable({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <CallDetailsSheet call={callData} open={isSheetOpen} onOpenChange={setIsSheetOpen} />
+      <CallDetailsSheet call={callData} open={isSheetOpen} onOpenChange={setIsSheetOpen} refetch={refetch} />
     </>
   );
 }

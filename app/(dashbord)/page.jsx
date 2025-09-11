@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { LogTable } from '@/components/table/LogTable'
 import DropdownSelect from '@/components/ui/dropdown';
+import { OutcomesData } from '@/constants';
 
 
 export default function Home() {
@@ -20,13 +21,7 @@ export default function Home() {
   const [sortOrder, setSortOrder] = useState('desc')
   const [outcome, setOutcome] = useState('');
 
-  const outcomesData = [
-    { label: 'All', value: 'all' },
-    { label: 'Verified', value: 'verified' },
-    { label: 'Pending', value: 'pending' },
-    { label: 'Review', value: 'review' },
-    { label: 'Rejected', value: 'Rejected' }
-  ];
+
 
   const nin = 'pending,queued,deleted,schedule';
 
@@ -69,7 +64,7 @@ export default function Home() {
 
           <DropdownSelect
             value={outcome}
-            options={outcomesData}
+            options={OutcomesData}
             onChange={setOutcome}
             placeholder='Select Outcome'
           />

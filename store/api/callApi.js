@@ -83,6 +83,13 @@ const callApi = api.injectEndpoints({
                 method: 'POST',
                 body: data
             })
+        }),
+        updateOutcome : build.mutation({
+            query: (_data) => ({
+                url: `/call/update-outcome`,
+                method: 'POST',
+                body: _data
+            })
         })
     }),
     overrideExisting: true
@@ -100,5 +107,6 @@ export const {
     useUpdateCallStatusMutation,
     useHandUpCallMutation,
     useCallFeedbackMutation,
-    useRemoveCallsMutation
+    useRemoveCallsMutation,
+    useUpdateOutcomeMutation
 } = callApi
