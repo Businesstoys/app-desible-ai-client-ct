@@ -6,3 +6,11 @@ export const CONSTANTS = {
 }
 
  export const ONGOING_CALL_STATUSES = ['initiate', 'ringing', 'in-progress']
+
+ export const OutcomesData = [
+    { label: 'All', value: 'All' },
+    { label: 'Verified', value: 'Verified' },
+    { label: 'Pending', value: 'Pending' },
+    { label: 'Review', value: 'Review' },
+    { label: 'Rejected', value: 'Rejected' }
+  ];

@@ -76,9 +76,9 @@ export default function ExportDialog({ search, nin }) {
     dateRange?.from &&
     dateRange?.to &&
     format(preset.value.from, 'yyyy-MM-dd') ===
-      format(dateRange.from, 'yyyy-MM-dd') &&
+    format(dateRange.from, 'yyyy-MM-dd') &&
     format(preset.value.to, 'yyyy-MM-dd') ===
-      format(dateRange.to, 'yyyy-MM-dd');
+    format(dateRange.to, 'yyyy-MM-dd');
 
   const isCustomRange =
     dateRange?.from && dateRange?.to && !presets.some((p) => isActivePreset(p));
@@ -89,7 +89,6 @@ export default function ExportDialog({ search, nin }) {
       return;
     }
     try {
-      console.log('HIIIII I am calling', dateRange);
       const exportParams = {
         startDate: format(dateRange.from, 'yyyy-MM-dd'),
         endDate: format(dateRange.to, 'yyyy-MM-dd'),
@@ -156,7 +155,7 @@ export default function ExportDialog({ search, nin }) {
 
         {/* Preset toolbar - square buttons */}
         <div className='grid grid-cols-2 gap-2 sm:grid-cols-5'>
-          {presets.map((p) => (
+          {presets?.map((p) => (
             <button
               key={p.key}
               type='button'

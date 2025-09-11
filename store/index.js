@@ -31,7 +31,8 @@ export {
   useHandUpCallMutation,
   useCallFeedbackMutation,
   useCallDataExportMutation,
-  useRemoveCallsMutation
+  useRemoveCallsMutation,
+  useUpdateOutcomeMutation
 } from './api/callApi'
 
 export {
