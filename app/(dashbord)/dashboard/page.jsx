@@ -219,13 +219,6 @@ export default function DashboardPage() {
         trend: ad.trend,
         trendUp: ad.trendUp,
       },
-      // {
-      //   label: 'Total Qualified Leads',
-      //   value: kpiLoading ? '–' : fmt(tq.value),
-      //   icon: <Users className='text-purple-500' size={20} />,
-      //   trend: tq.trend,
-      //   trendUp: tq.trendUp,
-      // },
       {
         label: 'Qualification Rate',
         value: kpiLoading ? '–' : `${fmt(qr.value)}%`,

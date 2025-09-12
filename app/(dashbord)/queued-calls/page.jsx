@@ -33,7 +33,6 @@ export default function Page() {
   const [perPage, setPerPage] = useState(10)
   const [selectedRows, setSelectedRows] = useState([])
 
-  // Call queue status hooks
   const { data: queueStatusData, refetch: refetchQueueStatus, isLoading: isQueueStatusLoading } = useGetQueueStatusQuery()
   const [startQueue, { isLoading: isStartingQueue }] = useStartQueueMutation()
   const [stopQueue, { isLoading: isStoppingQueue }] = useStopQueueMutation()
