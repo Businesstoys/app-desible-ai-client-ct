@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import AudioPlayer from './audio-player'
 import { Pencil } from 'lucide-react';
 import DropdownSelect from './ui/dropdown';
-import { OutcomesData } from '@/constants';
+import { OUTCOMES_DATA } from '@/constants';
 import { useUpdateOutcomeMutation } from '@/store';
 import { showErrorToast, showSuccessToast } from './ui/toast';
 
@@ -47,12 +47,11 @@ const getVoiceLanguage = (voiceLabel) => {
 export function CallDetailsSheet({ open, onOpenChange, call, refetch }) {
   const voiceInfo = call?.voiceName;
   const voiceLanguage = getVoiceLanguage(voiceInfo);
-  console.log('CallDetailsSheet call:', call);
 
   const [newOutcome, setNewOutcome] = useState(call?.outcome || '');
   const [isEditing, setIsEditing] = useState(false);
 
-  const editableOutcomesData = OutcomesData.filter(opt => opt.value !== 'All');
+  const editableOutcomesData = OUTCOMES_DATA.filter(opt => opt.value !== 'All');
 
   useEffect(() => {
     setNewOutcome(call?.outcome || '');

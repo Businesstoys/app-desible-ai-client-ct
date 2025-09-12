@@ -10,8 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { LogTable } from '@/components/table/LogTable'
 import DropdownSelect from '@/components/ui/dropdown';
-import { OutcomesData } from '@/constants';
-
+import { OUTCOMES_DATA } from '@/constants';
 
 export default function Home() {
   const [search, setSearch] = useState('');
@@ -64,7 +63,7 @@ export default function Home() {
 
           <DropdownSelect
             value={outcome}
-            options={OutcomesData}
+            options={OUTCOMES_DATA}
             onChange={setOutcome}
             placeholder='Select Outcome'
           />
