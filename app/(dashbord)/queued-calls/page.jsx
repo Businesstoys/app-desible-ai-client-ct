@@ -187,7 +187,7 @@ export default function Page() {
       <div className="bg-white rounded-md shadow-sm border border-gray-100 overflow-hidden" >
         <div className="overflow-scroll [scrollbar-width:none]"
              style={{ height: "calc(80vh - 75px)" }} >
-          <Table className='min-h-96'>
+          <Table className=''>
             <TableHeader className="bg-gray-50">
               <TableRow>
                 <TableHead className=" w-12 font-semibold text-textCustomDark bg-secondaryBackground border-b border-gray-200">
@@ -202,8 +202,8 @@ export default function Page() {
                   />
                 </TableHead>
                 <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">To Phone</TableHead>
-                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Account Name</TableHead>
-                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Driver Name</TableHead>
+                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200">Carrier Name</TableHead>
+                <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Dispatcher</TableHead>
                 <TableHead className="font-semibold text-textCustomDark w-40 bg-secondaryBackground border-b border-gray-200" >Shipment Number</TableHead>
               </TableRow>
             </TableHeader>
@@ -235,8 +235,8 @@ export default function Page() {
                       />
                     </TableCell>
                     <TableCell className="font-medium">{call.toPhone}</TableCell>
-                    <TableCell>{call.accountName}</TableCell>
-                    <TableCell>{call.driverName}</TableCell>
+                    <TableCell>{call.carrierName}</TableCell>
+                    <TableCell>{call.dispatcherName}</TableCell>
                     <TableCell className='text-center' >{call.shipmentNumber}</TableCell>
                   </TableRow>
                 ))

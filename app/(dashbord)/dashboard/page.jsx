@@ -455,7 +455,6 @@ export default function DashboardPage() {
                       fontWeight: 500,
                     }}
                   />
-                  {/* {console.log("Chart Keys", chartKeys)} */}
                   {dataKeys.map((key, index) => (
                     <Line
                       key={key}
